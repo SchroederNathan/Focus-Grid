@@ -3,7 +3,7 @@ import React from "react";
 
 const add = () => {
   return (
-    <View>
+    <View className="flex-1 px-4 py-2 bg-background">
       <Text>add</Text>
     </View>
   );

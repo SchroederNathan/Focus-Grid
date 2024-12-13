@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,6 +40,7 @@ export default function RootLayout() {
         <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
       </View>
       <Stack screenOptions={{ headerShown: false }} />
+
     </SafeAreaView>
   );
 }
