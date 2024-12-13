@@ -4,30 +4,16 @@ import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import clsx from "clsx";
 import * as Icons from "react-native-heroicons/solid";
+import { HabitDay } from "../models";
+import { generateLast60Days } from "../helpers/CardHelpers";
 
 dayjs.extend(isSameOrBefore);
-
-interface HabitDay {
-  date: string; // ISO format
-}
 
 interface HabitProps {
   id: number | string;
   name: string;
   days: HabitDay[]; // Array of completed days
 }
-
-// Helper: Generate last 60 days
-const generateLast60Days = () => {
-  const today = dayjs();
-  const last60Days: string[] = [];
-
-  for (let i = 59; i >= 0; i--) {
-    last60Days.push(today.subtract(i, "day").format("YYYY-MM-DD"));
-  }
-
-  return last60Days;
-};
 
 const HabitCard = ({ id, name, days }: HabitProps) => {
   const completedDates = days.map((day) =>
@@ -48,14 +34,15 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
         <View>
           <Text className="text-lg font-semibold text-text">{name}</Text>
           <Text className="text-md font-semibold text-text/70 mb-3">
-            description
+            Description
           </Text>
         </View>
         {/* Button */}
         <TouchableOpacity
           className="bg-primary w-12 aspect-square rounded-lg flex justify-center items-center"
           onPress={() => console.log("Button Pressed")}
-        > <Icons.CheckIcon fill={"white"} size={24}/>
+        >
+          <Icons.CheckIcon fill={"white"} size={24} />
         </TouchableOpacity>
       </View>
       {/* Days Grid and Button */}
