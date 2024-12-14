@@ -1,22 +1,23 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import timezone from "dayjs/plugin/timezone"; // import plugin
+import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 import { generateLast90Days } from "../helpers/CardHelpers";
-import { HabitDay } from "../models";
+import { Habit } from "../models";
 
-dayjs.extend(isSameOrBefore);
+dayjs.extend(utc); // use plugin
+dayjs.extend(timezone); // use plugin
 
-interface HabitProps {
-  id: number | string;
-  name: string;
-  description?: string;
-  days: HabitDay[]; // Array of completed days
+// dayjs.extend(isSameOrBefore);
+
+interface HabitProps extends Habit {
+  habitEntry: (id: number) => void;
 }
 
-const HabitCard = ({ id, name, description, days }: HabitProps) => {
+const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
   const completedDates = days.map((day) =>
     dayjs(day.date).format("YYYY-MM-DD")
   );
@@ -57,7 +58,7 @@ const HabitCard = ({ id, name, description, days }: HabitProps) => {
         {/* Button */}
         <TouchableOpacity
           className="bg-primary w-12 aspect-square rounded-lg flex justify-center items-center"
-          onPress={() => console.log("Button Pressed")}
+          onPress={() => habitEntry(id!)}
         >
           <Icons.CheckIcon fill={"white"} size={24} />
         </TouchableOpacity>

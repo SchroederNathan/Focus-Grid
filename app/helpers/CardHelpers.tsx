@@ -3,13 +3,12 @@ import { HabitDay } from "../models";
 
 // Helper: Generate last 60 days
 export const generateLast90Days = () => {
-  const today = dayjs();
+  const today = dayjs().tz("America/New_York");
   const last90Days: string[] = [];
 
   for (let i = 89; i >= 0; i--) {
     last90Days.push(today.subtract(i, "day").format("YYYY-MM-DD"));
   }
-  console.log(last90Days);
 
   return last90Days;
 };
