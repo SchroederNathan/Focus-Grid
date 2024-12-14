@@ -17,12 +17,13 @@ export default function Home() {
   ];
   
   return (
-    <View className="flex-1 px-4 py-2 bg-background">
+    <View className="flex-1 px-4 py-2 bg-background overflow-visible">
       {/* Habit List */}
       <FlatList
         data={habits}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View className="mt-5" />}
+        className="rounded-t-lg pb-24"
         renderItem={({ item, index }) => (
           <HabitCard id={index} name={item.name} days={habits[index].days} />
         )}

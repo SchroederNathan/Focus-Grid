@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import clsx from "clsx";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
+import { generateLast90Days } from "../helpers/CardHelpers";
 import { HabitDay } from "../models";
-import { generateLast60Days } from "../helpers/CardHelpers";
 
 dayjs.extend(isSameOrBefore);
 
@@ -20,7 +20,7 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
     dayjs(day.date).format("YYYY-MM-DD")
   );
 
-  const last60Days = generateLast60Days();
+  const last60Days = generateLast90Days();
 
   const getColor = (date: string) => {
     // Check if the current date is in the completedDates array
@@ -28,12 +28,12 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
   };
 
   return (
-    <View key={id} className="bg-primary/5 p-2 rounded-lg">
+    <View key={id} className="bg-primary/5 rounded-lg flex-col p-3">
       <View className="flex-row justify-between items-center mb-3">
         {/* Habit Name */}
-        <View>
+        <View className="flex-col justify-center">
           <Text className="text-lg font-semibold text-text">{name}</Text>
-          <Text className="text-md font-semibold text-text/70 mb-3">
+          <Text className="text-md font-semibold text-text/70">
             Description
           </Text>
         </View>
@@ -46,16 +46,21 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
         </TouchableOpacity>
       </View>
       {/* Days Grid and Button */}
-      <View className="flex-row ">
+      <View className="flex-row items-center ">
         {/* Days Grid */}
-        <View className="flex-row flex-wrap">
+        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3">
           {last60Days.map((day) => (
             <View
               key={day}
               className={clsx(
-                "w-[20px] h-[20px] rounded m-[2px]",
-                completedDates.includes(day) ? "bg-primary/25" : "bg-gray-200"
+                "aspect-square rounded ", // Ensure a square with small margin
+                completedDates.includes(day)
+                  ? "bg-primary/25"
+                  : "bg-secondary/20"
               )}
+              style={{
+                flexBasis: `${100 / 17}%`, // Adjust for a 7-column grid (or any other number of columns)
+              }}
               accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
             />
           ))}
