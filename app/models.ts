@@ -2,7 +2,6 @@ export interface HabitDay {
   date: string; // ISO format
 }
 
-
 export interface Habit {
   id?: number;
   name: string;

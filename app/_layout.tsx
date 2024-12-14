@@ -1,10 +1,9 @@
-import { SplashScreen, Stack } from "expo-router";
-import "../global.css";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,11 +35,10 @@ export default function RootLayout() {
   return (
     <SafeAreaView className="flex-1 bg-background overflow-visible">
       {/* Header */}
-
-      <View className="h-16 flex justify-center items-center">
-        <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
-      </View>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="habits/add" options={{ headerShown: false }} />
+      </Stack>
     </SafeAreaView>
   );
 }

@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import { generateRandomDays } from "./helpers/CardHelpers";
@@ -12,7 +12,6 @@ export default function Home() {
   const randomDayArray = [];
   for (let i = 0; i < 4; i++) {
     randomDayArray.push(generateRandomDays());
-    
   }
 
   const [habits, setHabits] = useState<Habit[]>([
@@ -42,9 +41,6 @@ export default function Home() {
     const today = new Date();
     const date = today.toISOString().split("T")[0];
 
-    console.log(date)
-
-
     setHabits((prevHabits) => {
       const updatedHabits = [...prevHabits];
       updatedHabits[id].days.push({ date });
@@ -53,28 +49,34 @@ export default function Home() {
   };
 
   return (
-    <View className="flex-1 px-4 py-2 bg-background overflow-visible">
-      {/* Habit List */}
-      <FlatList
-        data={habits}
-        keyExtractor={(item) => item.name}
-        ItemSeparatorComponent={() => <View className="mt-5" />}
-        className="rounded-t-lg pb-24"
-        renderItem={({ item, index }) => (
-          <HabitCard
-            id={index}
-            name={item.name}
-            description={item.description}
-            days={item.days}
-            habitEntry={habitEntry}
-          />
-        )}
-      />
-      <PrimaryButton
-        title="Add Habit"
-        onPress={() => router.push("/habits/add")}
-      />
-      <StatusBar style="dark" />
-    </View>
+    <>
+      <View className="h-16 flex justify-center items-center bg-background">
+        <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
+      </View>
+
+      <View className="flex-1 px-4 py-2 bg-background overflow-visible">
+        {/* Habit List */}
+        <FlatList
+          data={habits}
+          keyExtractor={(item) => item.name}
+          ItemSeparatorComponent={() => <View className="mt-5" />}
+          className="rounded-t-lg pb-24"
+          renderItem={({ item, index }) => (
+            <HabitCard
+              id={index}
+              name={item.name}
+              description={item.description}
+              days={item.days}
+              habitEntry={habitEntry}
+            />
+          )}
+        />
+        <PrimaryButton
+          title="Add Habit"
+          onPress={() => router.push("/habits/add")}
+        />
+        <StatusBar style="dark" />
+      </View>
+    </>
   );
 }
