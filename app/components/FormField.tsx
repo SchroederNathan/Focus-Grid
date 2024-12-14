@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 
 interface FormFieldProps {
   title: string;
   value: string;
   placeholder: string;
+  maxLength?: number;
+
   handleChangeText: (text: string) => void;
   otherStyles?: string;
 }
@@ -13,10 +15,17 @@ const FormField = ({
   title,
   value,
   placeholder,
+  maxLength,
   handleChangeText,
   otherStyles,
   ...props
 }: FormFieldProps) => {
+    const [currentLength, setCurrentLength] = useState(value.length);
+
+    const onTextChange = (text: string) => {
+      setCurrentLength(text.length);
+      handleChangeText(text);
+    };
   return (
     <View className={`${otherStyles}`}>
       <Text className="text-text font-lmedium mb-1">{title}</Text>
@@ -26,10 +35,16 @@ const FormField = ({
           value={value}
           placeholder={placeholder}
           placeholderTextColor="#7B7B8B"
-          onChangeText={handleChangeText}
+          onChangeText={onTextChange}
+          maxLength={maxLength || undefined}
           {...props}
         />
       </View>
+      {maxLength && (
+        <Text className="text-text font-lmedium text-right">
+          {`${currentLength}/${maxLength}`}
+        </Text>
+      )}
     </View>
   );
 };

@@ -1,11 +1,10 @@
-import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import FormField from "../components/FormField";
-import PrimaryButton from "../components/PrimaryButton";
-import * as Icons from "react-native-heroicons/solid";
-import Header from "../components/Header";
-import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
+import { router } from "expo-router";
+import React from "react";
+import { View } from "react-native";
+import FormField from "../components/FormField";
+import Header from "../components/Header";
+import PrimaryButton from "../components/PrimaryButton";
 
 const add = () => {
   const [name, setName] = React.useState("");
@@ -32,6 +31,7 @@ const add = () => {
         <FormField
           title="Name"
           value={name}
+          maxLength={42}
           placeholder={"Enter Habit Name"}
           handleChangeText={onChangeName}
           otherStyles="mb-4"
@@ -40,6 +40,7 @@ const add = () => {
         <FormField
           title="Description"
           value={description}
+          maxLength={42}
           placeholder={"Enter Habit Description"}
           handleChangeText={onChangeDescription}
         />

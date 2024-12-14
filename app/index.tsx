@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -6,7 +7,6 @@ import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import { generateRandomDays } from "./helpers/CardHelpers";
 import { Habit } from "./models";
-import * as Haptics from "expo-haptics";
 
 export default function Home() {
   const router = useRouter();
@@ -60,7 +60,6 @@ export default function Home() {
         <FlatList
           data={habits}
           keyExtractor={(item) => item.name}
-          ItemSeparatorComponent={() => <View className="mt-5" />}
           className="rounded-t-lg pb-24"
           renderItem={({ item, index }) => (
             <HabitCard

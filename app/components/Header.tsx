@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
-import { router } from "expo-router";
 
 interface HeaderProps {
   name: string;
@@ -9,8 +8,6 @@ interface HeaderProps {
 }
 
 const Header = ({ name, handlePress }: HeaderProps) => {
-
-
   return (
     <View className="h-16 flex justify-center items-center bg-background">
       {/* Header back button */}

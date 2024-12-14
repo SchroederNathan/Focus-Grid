@@ -2,12 +2,12 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
+import * as Haptics from "expo-haptics";
 import React from "react";
-import { Text, TouchableOpacity, Vibration, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 import { generateLast90Days } from "../helpers/CardHelpers";
 import { Habit } from "../models";
-import * as Haptics from "expo-haptics";
 
 dayjs.extend(utc); // use plugin
 dayjs.extend(timezone); // use plugin
@@ -41,7 +41,7 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     if (count === 3) return "bg-primary/75";
     if (count === 2) return "bg-primary/50";
     if (count === 1) return "bg-primary/25";
-    return "bg-primary/5"; // Default for uncompleted days
+    return "bg-primary/10"; // Default for uncompleted days
   };
 
   const getHaptic = () => {
@@ -52,24 +52,31 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     if (count >= 4)
       return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     if (count === 3)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     if (count === 2)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     if (count === 1)
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (count === 0)
       return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
   };
 
   return (
-    <View key={id} className="bg-primary/5 rounded-lg flex-col p-3">
+    <View key={id} className="bg-primary/5 rounded-lg flex-col p-3 mb-3">
       <View className="flex-row justify-between items-center mb-3">
-        {/* Habit Name */}
-        <View className="flex-col justify-center">
-          <Text className="text-xl font-semibold text-text ">{name}</Text>
-          {description && (
-            <Text className="text-lg font-semibold text-text/70">
-              {description}
-            </Text>
-          )}
+        <View className="flex-row items-center">
+          <View className="bg-primary/10 w-12 aspect-square rounded-lg flex justify-center items-center me-3">
+            <Icons.CodeBracketIcon fill={"#0b357f"} size={24} />
+          </View>
+          {/* Habit Name */}
+          <View className="flex-col justify-center">
+            <Text className="text-lg font-lsemibold text-text ">{name}</Text>
+            {description && (
+              <Text className="text-md font-lsemibold text-text/70">
+                {description}
+              </Text>
+            )}
+          </View>
         </View>
         {/* Button */}
         <TouchableOpacity
@@ -85,12 +92,12 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
       {/* Days Grid and Button */}
       <View className="flex-row items-center ">
         {/* Days Grid */}
-        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3 rounded-2xl overflow-hidden ">
+        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3 rounded-2xl  ">
           {last60Days.map((day) => (
             <View
               key={day}
               className={clsx(
-                "aspect-square rounded", // Ensure a square with small margin
+                "aspect-square rounded-lg", // Ensure a square with small margin
                 getColor(day)
               )}
               style={{
