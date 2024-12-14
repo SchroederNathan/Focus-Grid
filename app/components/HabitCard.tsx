@@ -22,9 +22,23 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
 
   const last60Days = generateLast90Days();
 
+  // Count occurrences of each date
+  const dateCounts: Record<string, number> = completedDates.reduce(
+    (acc, date) => {
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+
+  // Function to map count to opacity class
   const getColor = (date: string) => {
-    // Check if the current date is in the completedDates array
-    return completedDates.includes(date) ? "bg-primary" : "bg-gray-200";
+    const count = dateCounts[date] || 0;
+    if (count >= 4) return "bg-primary"; // Full opacity
+    if (count === 3) return "bg-primary/75";
+    if (count === 2) return "bg-primary/50";
+    if (count === 1) return "bg-primary/25";
+    return "bg-secondary/20"; // Default for uncompleted days
   };
 
   return (
@@ -53,10 +67,8 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
             <View
               key={day}
               className={clsx(
-                "aspect-square rounded ", // Ensure a square with small margin
-                completedDates.includes(day)
-                  ? "bg-primary/25"
-                  : "bg-secondary/20"
+                "aspect-square rounded", // Ensure a square with small margin
+                getColor(day)
               )}
               style={{
                 flexBasis: `${100 / 17}%`, // Adjust for a 7-column grid (or any other number of columns)

@@ -5,6 +5,7 @@ import { FlatList, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import { generateRandomDays } from "./helpers/CardHelpers";
+import { HabitDay } from "./models";
 
 export default function Home() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Home() {
     { id: "3", name: "Meditate", days: generateRandomDays() },
     { id: "4", name: "Read a Book", days: generateRandomDays() },
   ];
-  
+
   return (
     <View className="flex-1 px-4 py-2 bg-background overflow-visible">
       {/* Habit List */}
