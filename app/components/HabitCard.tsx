@@ -6,8 +6,8 @@ import * as Haptics from "expo-haptics";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
-import { generateLast90Days } from "../helpers/CardHelpers";
-import { Habit } from "../models";
+import { generateLast90Days } from "@/helpers/CardHelpers";
+import { Habit } from "@/models/models";
 
 dayjs.extend(utc); // use plugin
 dayjs.extend(timezone); // use plugin

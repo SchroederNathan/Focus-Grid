@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { HabitDay } from "../models";
+import { HabitDay } from "../../models/models";
 
 // Helper: Generate last 60 days
 export const generateLast90Days = () => {
