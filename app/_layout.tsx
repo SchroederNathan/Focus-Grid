@@ -36,11 +36,11 @@ export default function RootLayout() {
   return (
     <SafeAreaView className="flex-1 bg-background overflow-visible">
       {/* Header */}
+
       <View className="h-16 flex justify-center items-center">
         <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
       </View>
       <Stack screenOptions={{ headerShown: false }} />
-
     </SafeAreaView>
   );
 }

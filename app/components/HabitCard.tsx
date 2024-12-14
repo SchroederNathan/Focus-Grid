@@ -12,10 +12,11 @@ dayjs.extend(isSameOrBefore);
 interface HabitProps {
   id: number | string;
   name: string;
+  description?: string;
   days: HabitDay[]; // Array of completed days
 }
 
-const HabitCard = ({ id, name, days }: HabitProps) => {
+const HabitCard = ({ id, name, description, days }: HabitProps) => {
   const completedDates = days.map((day) =>
     dayjs(day.date).format("YYYY-MM-DD")
   );
@@ -38,7 +39,7 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
     if (count === 3) return "bg-primary/75";
     if (count === 2) return "bg-primary/50";
     if (count === 1) return "bg-primary/25";
-    return "bg-secondary/20"; // Default for uncompleted days
+    return "bg-primary/5"; // Default for uncompleted days
   };
 
   return (
@@ -46,10 +47,12 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
       <View className="flex-row justify-between items-center mb-3">
         {/* Habit Name */}
         <View className="flex-col justify-center">
-          <Text className="text-lg font-semibold text-text">{name}</Text>
-          <Text className="text-md font-semibold text-text/70">
-            Description
-          </Text>
+          <Text className="text-xl font-semibold text-text ">{name}</Text>
+          {description && (
+            <Text className="text-lg font-semibold text-text/70">
+              {description}
+            </Text>
+          )}
         </View>
         {/* Button */}
         <TouchableOpacity
@@ -62,7 +65,7 @@ const HabitCard = ({ id, name, days }: HabitProps) => {
       {/* Days Grid and Button */}
       <View className="flex-row items-center ">
         {/* Days Grid */}
-        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3">
+        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3 rounded-2xl overflow-hidden ">
           {last60Days.map((day) => (
             <View
               key={day}

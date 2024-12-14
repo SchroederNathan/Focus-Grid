@@ -5,16 +5,30 @@ import { FlatList, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import { generateRandomDays } from "./helpers/CardHelpers";
-import { HabitDay } from "./models";
 
 export default function Home() {
   const router = useRouter();
 
   const habits = [
-    { id: "1", name: "Drink Water", days: generateRandomDays() },
+    {
+      id: "1",
+      name: "Drink Water",
+      description: "Water is essential for life",
+      days: generateRandomDays(),
+    },
     { id: "2", name: "Exercise", days: generateRandomDays() },
-    { id: "3", name: "Meditate", days: generateRandomDays() },
-    { id: "4", name: "Read a Book", days: generateRandomDays() },
+    {
+      id: "3",
+      name: "Meditate",
+      description: "Meditation is good for your mental health",
+      days: generateRandomDays(),
+    },
+    {
+      id: "4",
+      name: "Read a Book",
+      description: "Reading is good for your brain",
+      days: generateRandomDays(),
+    },
   ];
 
   return (
@@ -26,7 +40,12 @@ export default function Home() {
         ItemSeparatorComponent={() => <View className="mt-5" />}
         className="rounded-t-lg pb-24"
         renderItem={({ item, index }) => (
-          <HabitCard id={index} name={item.name} days={habits[index].days} />
+          <HabitCard
+            id={index}
+            name={item.name}
+            description={item.description}
+            days={habits[index].days}
+          />
         )}
       />
       <PrimaryButton
