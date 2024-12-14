@@ -5,6 +5,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import * as Icons from "react-native-heroicons/solid";
 import Header from "../components/Header";
 import { router } from "expo-router";
+import * as Haptics from "expo-haptics";
 
 const add = () => {
   const [name, setName] = React.useState("");
@@ -20,6 +21,7 @@ const add = () => {
 
   const handleCreate = () => {
     router.back();
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     console.log(`Name: ${name} \n Description: ${description}`);
   };
 

@@ -3,10 +3,11 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, Vibration, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 import { generateLast90Days } from "../helpers/CardHelpers";
 import { Habit } from "../models";
+import * as Haptics from "expo-haptics";
 
 dayjs.extend(utc); // use plugin
 dayjs.extend(timezone); // use plugin
@@ -43,6 +44,21 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     return "bg-primary/5"; // Default for uncompleted days
   };
 
+  const getHaptic = () => {
+    // get todays date
+    const today = new Date();
+    const date = today.toISOString().split("T")[0];
+    const count = dateCounts[date] || 0;
+    if (count >= 4)
+      return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    if (count === 3)
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (count === 2)
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (count === 1)
+      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
+  };
+
   return (
     <View key={id} className="bg-primary/5 rounded-lg flex-col p-3">
       <View className="flex-row justify-between items-center mb-3">
@@ -58,7 +74,10 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
         {/* Button */}
         <TouchableOpacity
           className="bg-primary w-12 aspect-square rounded-lg flex justify-center items-center"
-          onPress={() => habitEntry(id!)}
+          onPress={() => {
+            habitEntry(id!);
+            getHaptic();
+          }}
         >
           <Icons.CheckIcon fill={"white"} size={24} />
         </TouchableOpacity>

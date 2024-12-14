@@ -6,6 +6,7 @@ import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import { generateRandomDays } from "./helpers/CardHelpers";
 import { Habit } from "./models";
+import * as Haptics from "expo-haptics";
 
 export default function Home() {
   const router = useRouter();
@@ -73,7 +74,10 @@ export default function Home() {
         />
         <PrimaryButton
           title="Add Habit"
-          onPress={() => router.push("/habits/add")}
+          onPress={() => {
+            router.push("/habits/add");
+            Haptics.selectionAsync();
+          }}
         />
         <StatusBar style="dark" />
       </View>
