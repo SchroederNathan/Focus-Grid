@@ -3,46 +3,33 @@ import { Habit } from "@/models/models";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
+import { getAllHabits } from "@/services/habitService";
 
 export default function Home() {
   const router = useRouter();
-  const randomDayArray = [];
-  for (let i = 0; i < 4; i++) {
-    randomDayArray.push(generateRandomDays());
-  }
 
-  const [habits, setHabits] = useState<Habit[]>([
-    {
-      name: "Drink Water",
-      description: "Water is essential for life",
-      days: randomDayArray[0],
-    },
-    {
-      name: "Exercise",
-      days: randomDayArray[1],
-    },
-    {
-      name: "Meditate",
-      description: "Meditation is good for your mental health",
-      days: randomDayArray[2],
-    },
-    {
-      name: "Read a Book",
-      description: "Reading is good for your brain",
-      days: randomDayArray[3],
-    },
-  ]);
+  const [habits, setHabits] = useState<Habit[]>();
+
+  // Fetch all habits from AsyncStorage
+  const fetchHabits = async () => {
+    const allHabits = await getAllHabits(); // Fetch habits
+    setHabits(allHabits); // Update state
+  };
+
+  useEffect(() => {
+    fetchHabits();
+  }, []);
 
   // Function to add today's date to a habit
   const habitEntry = (id: number) => {
     const today = new Date();
     const date = today.toISOString().split("T")[0];
 
-    setHabits((prevHabits) => {
+    setHabits((prevHabits = []) => {
       const updatedHabits = [...prevHabits];
       updatedHabits[id].days.push({ date });
       return updatedHabits;

@@ -5,6 +5,8 @@ import { View } from "react-native";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
+import { storeHabit } from "@/services/habitService";
+import { Habit } from "@/models/models";
 
 const add = () => {
   const [name, setName] = React.useState("");
@@ -22,6 +24,12 @@ const add = () => {
     router.back();
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     console.log(`Name: ${name} \n Description: ${description}`);
+    const habit: Habit = {
+      name: name,
+      description: description,
+      days: [],
+    };
+    storeHabit(habit);
   };
 
   return (
