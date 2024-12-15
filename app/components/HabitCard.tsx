@@ -1,3 +1,5 @@
+import { generateLast90Days } from "@/helpers/CardHelpers";
+import { Habit } from "@/models/models";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
@@ -6,8 +8,6 @@ import * as Haptics from "expo-haptics";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
-import { generateLast90Days } from "@/helpers/CardHelpers";
-import { Habit } from "@/models/models";
 
 dayjs.extend(utc); // use plugin
 dayjs.extend(timezone); // use plugin
@@ -62,7 +62,7 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
   };
 
   return (
-    <View key={id} className="bg-primary/5 rounded-lg flex-col p-3 mb-3">
+    <View key={id} className="bg-white rounded-lg flex-col p-3 mb-3 shadow-lg shadow-black/10">
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
           <View className="bg-primary/10 w-12 aspect-square rounded-lg flex justify-center items-center me-3">
@@ -92,16 +92,13 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
       {/* Days Grid and Button */}
       <View className="flex-row items-center ">
         {/* Days Grid */}
-        <View className="flex-row flex-wrap justify-center items-center gap-[2px] -mx-3 rounded-2xl  ">
+        <View className="flex-row flex-wrap justify-center items-center gap-[4px] -mx-2">
           {last60Days.map((day) => (
             <View
               key={day}
-              className={clsx(
-                "aspect-square rounded-lg", // Ensure a square with small margin
-                getColor(day)
-              )}
+              className={clsx("aspect-square rounded-md", getColor(day))}
               style={{
-                flexBasis: `${100 / 17}%`, // Adjust for a 7-column grid (or any other number of columns)
+                flexBasis: `${100 / 23}%`, // Adjust for a 23-column grid
               }}
               accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
             />

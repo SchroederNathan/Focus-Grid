@@ -20,12 +20,12 @@ const FormField = ({
   otherStyles,
   ...props
 }: FormFieldProps) => {
-    const [currentLength, setCurrentLength] = useState(value.length);
+  const [currentLength, setCurrentLength] = useState(value.length);
 
-    const onTextChange = (text: string) => {
-      setCurrentLength(text.length);
-      handleChangeText(text);
-    };
+  const onTextChange = (text: string) => {
+    setCurrentLength(text.length);
+    handleChangeText(text);
+  };
   return (
     <View className={`${otherStyles}`}>
       <Text className="text-text font-lmedium mb-1">{title}</Text>
@@ -41,7 +41,7 @@ const FormField = ({
         />
       </View>
       {maxLength && (
-        <Text className="text-text font-lmedium text-right">
+        <Text className="text-text font-lmedium text-right mt-1">
           {`${currentLength}/${maxLength}`}
         </Text>
       )}

@@ -1,3 +1,5 @@
+import { generateRandomDays } from "@/helpers/CardHelpers";
+import { Habit } from "@/models/models";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -5,8 +7,6 @@ import React, { useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
-import { generateRandomDays } from "@/helpers/CardHelpers";
-import { Habit } from "@/models/models";
 
 export default function Home() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      <View className="h-16 flex justify-center items-center bg-background">
+      <View className="h-16  flex justify-center items-center bg-background">
         <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
       </View>
 
@@ -60,7 +60,8 @@ export default function Home() {
         <FlatList
           data={habits}
           keyExtractor={(item) => item.name}
-          className="rounded-t-lg pb-24"
+          className="rounded-t-lg pb-24 overflow-visible"
+          ItemSeparatorComponent={() => <View className="h-3" />}
           renderItem={({ item, index }) => (
             <HabitCard
               id={index}
