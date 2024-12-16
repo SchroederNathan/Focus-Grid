@@ -3,7 +3,7 @@ export interface HabitDay {
 }
 
 export interface Habit {
-  id?: number;
+  id: string;
   name: string;
   description?: string;
   days: HabitDay[]; // Array of completed days

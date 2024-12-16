@@ -15,7 +15,7 @@ dayjs.extend(timezone); // use plugin
 // dayjs.extend(isSameOrBefore);
 
 interface HabitProps extends Habit {
-  habitEntry: (id: number) => void;
+  habitEntry: (id: string, date: string) => void;
 }
 
 const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
@@ -62,7 +62,10 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
   };
 
   return (
-    <View key={id} className="bg-white rounded-lg flex-col p-3 mb-3 shadow-lg shadow-black/10">
+    <View
+      key={id}
+      className="bg-white rounded-lg flex-col p-3 mb-3 shadow-lg shadow-black/10"
+    >
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
           <View className="bg-primary/10 w-12 aspect-square rounded-lg flex justify-center items-center me-3">
@@ -82,7 +85,9 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
         <TouchableOpacity
           className="bg-primary w-12 aspect-square rounded-lg flex justify-center items-center"
           onPress={() => {
-            habitEntry(id!);
+            const currentDate = dayjs();
+            const formattedDate = currentDate.format('YYYY-MM-DD');
+            habitEntry(id, formattedDate);
             getHaptic();
           }}
         >

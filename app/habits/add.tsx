@@ -5,10 +5,13 @@ import { View } from "react-native";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
-import { storeHabit } from "@/services/habitService";
+import { guidGenerator, storeHabit } from "@/services/habitService";
 import { Habit } from "@/models/models";
+import { useHabitsStore } from "@/zustand/store";
 
 const add = () => {
+  const addHabit = useHabitsStore((state) => state.addHabit);
+
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
 
@@ -21,15 +24,19 @@ const add = () => {
   };
 
   const handleCreate = () => {
-    router.back();
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    console.log(`Name: ${name} \n Description: ${description}`);
     const habit: Habit = {
+      id: guidGenerator(),
       name: name,
       description: description,
       days: [],
     };
-    storeHabit(habit);
+
+    // Validate and add
+    if (name.trim()) {
+      addHabit(habit);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      router.back();
+    }
   };
 
   return (

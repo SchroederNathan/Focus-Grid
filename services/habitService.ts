@@ -34,7 +34,7 @@ export const getAllHabits = async () => {
       .filter((habit) => habit !== null); // Filter out any invalid entries
 
     console.log("Fetched Habits!", parsedHabits);
-    return parsedHabits; // Return the array of objects
+    return parsedHabits.length > 0 ? parsedHabits : []; // Return the array of objects
   } catch (e) {
     console.log("Error retrieving data: ", e);
   }
@@ -74,7 +74,7 @@ export const removeData = async (key: string) => {
   }
 };
 
-function guidGenerator() {
+export function guidGenerator() {
   var S4 = function () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   };

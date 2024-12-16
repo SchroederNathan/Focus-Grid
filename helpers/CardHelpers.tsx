@@ -1,18 +1,23 @@
 import dayjs from "dayjs";
-import { HabitDay } from "../../models/models";
+import { HabitDay } from "@/models/models";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-// Helper: Generate last 60 days
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export const generateLast90Days = () => {
-  const today = dayjs().tz("America/New_York");
+  const today = dayjs();
   const last90Days: string[] = [];
 
   for (let i = 89; i >= 0; i--) {
     last90Days.push(today.subtract(i, "day").format("YYYY-MM-DD"));
   }
 
+  console.log(last90Days);
+
   return last90Days;
 };
-
 // Generate's random days between the last 90 days in YYYY-MM-DD format
 export const generateRandomDays = (): HabitDay[] => {
   const last90Days = generateLast90Days();
