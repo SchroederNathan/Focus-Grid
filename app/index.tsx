@@ -28,13 +28,13 @@ export default function Home() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background overflow-visible relative">
+    <SafeAreaView className="flex-1 bg-background overflow-hidden relative">
       <Header
         name="Habit Tracker"
         handleRightIconPress={() => handleSettings()}
       />
 
-      <View className="flex-1 px-4 py-2 bg-background overflow-visible">
+      <View className="flex-1 px-4 py-2 bg-background overflow-hidden -mb-12 pb-36">
         {/* Habit List */}
         <FlatList
           data={habits}
@@ -51,14 +51,6 @@ export default function Home() {
             />
           )}
         />
-        {/* <PrimaryButton
-          title="Add Habit"
-          onPress={() => {
-            router.push("/habits/add");
-            Haptics.selectionAsync();
-          }}
-          color="bg-text"
-        /> */}
         <StatusBar style="dark" />
       </View>
     </SafeAreaView>

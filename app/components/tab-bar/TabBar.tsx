@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import { router, usePathname } from "expo-router";
 import React from "react";
 import { Pressable, View } from "react-native";
@@ -87,6 +88,7 @@ const TabBar = ({ otherStyles }: TabBarProps) => {
   });
 
   const handleNavigation = (path: any) => {
+    Haptics.selectionAsync();
     // If current path is create and trying to go to home, go back
     if (pathname === "/habits/add" && path === "/") {
       router.back();
