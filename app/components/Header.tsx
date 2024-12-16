@@ -8,27 +8,34 @@ interface HeaderProps {
   handleRightIconPress?: () => void;
 }
 
-const Header = ({ name, handleBackPress, handleRightIconPress }: HeaderProps) => {
-  return (
-    <View className="h-16 flex justify-center items-center bg-background">
-      {/* Header back button */}
-      {handleBackPress && (
-        <View className="absolute top-4 left-4">
-          <TouchableOpacity onPress={() => handleBackPress()}>
-            <Icons.ChevronLeftIcon fill={"#232323"} size={24} />
-          </TouchableOpacity>
-        </View>
-      )}
+const Header = ({
+  name,
+  handleBackPress,
+  handleRightIconPress,
+}: HeaderProps) => {
+  const styling = handleBackPress ? "" : "justify-between";
 
-      <Text className="text-xl font-lsemibold text-text">{name}</Text>
+  return (
+    <View
+      className={` py-6 mt-3 flex-row ${styling} items-center  px-6`}
+    >
+      {/* Header back button */}
+      {handleBackPress ? (
+        <TouchableOpacity className="flex-row items-center" onPress={() => handleBackPress()}>
+          <Icons.ChevronLeftIcon fill={"#232323"} size={24} />
+          <Text className="ms-3 text-5xl w-100 font-lsemibold text-text">
+            {name}
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <Text className="text-5xl w-100 font-lsemibold text-text py-1">{name}</Text>
+      )}
 
       {/* Header right icon */}
       {handleRightIconPress && (
-        <View className="absolute top-4 right-4">
-          <TouchableOpacity onPress={() => handleRightIconPress()}>
-            <Icons.Cog6ToothIcon fill={"#232323"} size={24} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => handleRightIconPress()}>
+          <Icons.Cog6ToothIcon fill={"#232323"} size={24} />
+        </TouchableOpacity>
       )}
     </View>
   );
