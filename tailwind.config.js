@@ -6,12 +6,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'text': '#232323',
-        'background': '#F8FAED',
-        'primary': '#50A65C',
-        'secondary': '#54AF61',
-        'accent': '#F1F3E6',
-        'secondary-container': '#E7E9D6',
+        text: "#232323",
+        background: "#F8FAED",
+        primary: "#50A65C",
+        secondary: "#54AF61",
+        accent: "#F1F3E6",
+        "secondary-container": "#E7E9D6",
+        "on-container": "#7B7E7E",
       },
       fontFamily: {
         lthin: ["Lexend-Thin", "sans-serif"],

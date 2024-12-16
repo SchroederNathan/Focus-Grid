@@ -9,6 +9,7 @@ import { guidGenerator, storeHabit } from "@/services/habitService";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import { DismissKeyboard } from "@/helpers/CardHelpers";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const add = () => {
   const addHabit = useHabitsStore((state) => state.addHabit);
@@ -41,8 +42,8 @@ const add = () => {
   };
 
   return (
-    <>
-      <Header name="Add Habit" handleBackPress={() => router.back()} />
+    <SafeAreaView className="flex-1 bg-background overflow-visible relative">
+      <Header name="Add Habit" />
       <DismissKeyboard>
         <View className="flex-1 px-4 py-2 bg-background overflow-visible">
           <FormField
@@ -50,7 +51,7 @@ const add = () => {
             value={name}
             maxLength={42}
             hideMaxLength={true}
-            placeholder={"Enter Habit Name"}
+            placeholder={"Ex. Morning Run"}
             handleChangeText={onChangeName}
             keyboardType="default"
             otherStyles="mb-4"
@@ -60,19 +61,20 @@ const add = () => {
             title="Description"
             value={description}
             maxLength={42}
-            placeholder={"Enter Habit Description"}
+            placeholder={"Add a brief description (optional)"}
             handleChangeText={onChangeDescription}
             keyboardType="default"
           />
 
           <PrimaryButton
             title="Create"
+            otherStyles="mt-4"
             onPress={() => handleCreate()}
             color="bg-primary"
           />
         </View>
       </DismissKeyboard>
-    </>
+    </SafeAreaView>
   );
 };
 

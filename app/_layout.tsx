@@ -3,6 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../global.css";
+import TabBar from "./components/tab-bar/TabBar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,13 +33,13 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background overflow-visible">
-      {/* Header */}
+    <>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="habits/add" options={{ headerShown: false }} />
         <Stack.Screen name="settings" options={{ headerShown: false }} />
       </Stack>
-    </SafeAreaView>
+      <TabBar />
+    </>
   );
 }

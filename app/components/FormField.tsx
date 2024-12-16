@@ -35,9 +35,9 @@ const FormField = ({
       <Text className="text-text font-lmedium mb-1">{title}</Text>
       <View
       className={`w-full h-14 px-4 bg-accent shadow-black/10 rounded-lg flex flex-row items-center ${
-        isFocused ? "border-2 border-primary" : ""
+        isFocused ? "border-2 border-on-container" : ""
       }`}
-      style={{ borderColor: isFocused ? "#3498db" : "transparent" }} // Custom color (fallback if using inline style)
+
     >
       <TextInput
         className="flex-1 text-text font-lregular"

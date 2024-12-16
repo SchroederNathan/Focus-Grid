@@ -7,6 +7,8 @@ import { FlatList, Text, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
 import Header from "./components/Header";
+import TabBar from "./components/tab-bar/TabBar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   const router = useRouter();
@@ -26,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <SafeAreaView className="flex-1 bg-background overflow-visible relative">
       <Header
         name="Habit Tracker"
         handleRightIconPress={() => handleSettings()}
@@ -49,16 +51,16 @@ export default function Home() {
             />
           )}
         />
-        <PrimaryButton
+        {/* <PrimaryButton
           title="Add Habit"
           onPress={() => {
             router.push("/habits/add");
             Haptics.selectionAsync();
           }}
           color="bg-text"
-        />
+        /> */}
         <StatusBar style="dark" />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
