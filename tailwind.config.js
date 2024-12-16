@@ -6,11 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        text: "#070d13",
-        background: "#e0e6f0",
-        primary: "#0b357f",
-        secondary: "#a3b7ff",
-        accent: "#42a7ff",
+        'text': '#232323',
+        'background': '#F8FAED',
+        'primary': '#50A65C',
+        'secondary': '#54AF61',
+        'accent': '#F1F3E6',
+        'secondary-container': '#E7E9D6',
       },
       fontFamily: {
         lthin: ["Lexend-Thin", "sans-serif"],

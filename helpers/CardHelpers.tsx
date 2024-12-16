@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { HabitDay } from "@/models/models";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -13,8 +14,6 @@ export const generateLast90Days = () => {
   for (let i = 89; i >= 0; i--) {
     last90Days.push(today.subtract(i, "day").format("YYYY-MM-DD"));
   }
-
-  console.log(last90Days);
 
   return last90Days;
 };
@@ -31,3 +30,10 @@ export const generateRandomDays = (): HabitDay[] => {
 
   return randomDays;
 };
+
+export const DismissKeyboard = ({ children }: { children: any }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
+    {children}
+  </TouchableWithoutFeedback>
+);

@@ -6,26 +6,31 @@ import React from "react";
 import { FlatList, Text, View } from "react-native";
 import HabitCard from "./components/HabitCard";
 import PrimaryButton from "./components/PrimaryButton";
-import dayjs from "dayjs";
+import Header from "./components/Header";
 
 export default function Home() {
   const router = useRouter();
 
-  // const [habits, setHabits] = useState<Habit[]>();
-
   const habits = useHabitsStore((state: any) => state.habits);
   const addHabitEntry = useHabitsStore((state: any) => state.addHabitEntry);
+
   console.log(habits);
+
   // Function to add today's date to a habit
   const habitEntry = (id: string, date: string) => {
     addHabitEntry(id, date);
   };
 
+  const handleSettings = () => {
+    router.push("/settings");
+  };
+
   return (
     <>
-      <View className="h-16  flex justify-center items-center bg-background">
-        <Text className="text-xl font-lsemibold text-text">Habit Tracker</Text>
-      </View>
+      <Header
+        name="Habit Tracker"
+        handleRightIconPress={() => handleSettings()}
+      />
 
       <View className="flex-1 px-4 py-2 bg-background overflow-visible">
         {/* Habit List */}
@@ -50,6 +55,7 @@ export default function Home() {
             router.push("/habits/add");
             Haptics.selectionAsync();
           }}
+          color="bg-text"
         />
         <StatusBar style="dark" />
       </View>

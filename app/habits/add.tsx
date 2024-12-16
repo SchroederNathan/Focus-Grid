@@ -8,6 +8,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import { guidGenerator, storeHabit } from "@/services/habitService";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
+import { DismissKeyboard } from "@/helpers/CardHelpers";
 
 const add = () => {
   const addHabit = useHabitsStore((state) => state.addHabit);
@@ -41,27 +42,36 @@ const add = () => {
 
   return (
     <>
-      <Header name="Add Habit" handlePress={() => router.back()} />
-      <View className="flex-1 px-4 py-2 bg-background overflow-visible">
-        <FormField
-          title="Name"
-          value={name}
-          maxLength={42}
-          placeholder={"Enter Habit Name"}
-          handleChangeText={onChangeName}
-          otherStyles="mb-4"
-        />
+      <Header name="Add Habit" handleBackPress={() => router.back()} />
+      <DismissKeyboard>
+        <View className="flex-1 px-4 py-2 bg-background overflow-visible">
+          <FormField
+            title="Name"
+            value={name}
+            maxLength={42}
+            hideMaxLength={true}
+            placeholder={"Enter Habit Name"}
+            handleChangeText={onChangeName}
+            keyboardType="default"
+            otherStyles="mb-4"
+          />
 
-        <FormField
-          title="Description"
-          value={description}
-          maxLength={42}
-          placeholder={"Enter Habit Description"}
-          handleChangeText={onChangeDescription}
-        />
+          <FormField
+            title="Description"
+            value={description}
+            maxLength={42}
+            placeholder={"Enter Habit Description"}
+            handleChangeText={onChangeDescription}
+            keyboardType="default"
+          />
 
-        <PrimaryButton title="Create" onPress={() => handleCreate()} />
-      </View>
+          <PrimaryButton
+            title="Create"
+            onPress={() => handleCreate()}
+            color="bg-primary"
+          />
+        </View>
+      </DismissKeyboard>
     </>
   );
 };

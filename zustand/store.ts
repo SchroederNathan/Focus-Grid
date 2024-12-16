@@ -33,12 +33,12 @@ export const useHabitsStore = create<HabitState>()(
             habit.id === id ? { ...habit, ...updatedHabit } : habit
           ),
         })),
-        addHabitEntry: (id: string, day: string) => 
-          set((state: any) => ({
-            habits: state.habits.map((habit: Habit) =>
-              habit.id === id ? { ...habit, days: [...habit.days, day] } : habit
-            ),
-          })),
+      addHabitEntry: (id: string, day: string) =>
+        set((state: any) => ({
+          habits: state.habits.map((habit: Habit) =>
+            habit.id === id ? { ...habit, days: [...habit.days, day] } : habit
+          ),
+        })),
     }),
     {
       name: "habits-storage", // name of the item in the storage (must be unique)

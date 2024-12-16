@@ -24,6 +24,8 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
   );
 
   const last60Days = generateLast90Days();
+  const currentDate = dayjs();
+  const formattedDate = currentDate.format("YYYY-MM-DD");
 
   // Count occurrences of each date
   const dateCounts: Record<string, number> = completedDates.reduce(
@@ -41,7 +43,7 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     if (count === 3) return "bg-primary/75";
     if (count === 2) return "bg-primary/50";
     if (count === 1) return "bg-primary/25";
-    return "bg-primary/10"; // Default for uncompleted days
+    return "bg-secondary-container"; // Default for uncompleted days
   };
 
   const getHaptic = () => {
@@ -64,12 +66,12 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
   return (
     <View
       key={id}
-      className="bg-white rounded-lg flex-col p-3 mb-3 shadow-lg shadow-black/10"
+      className="bg-accent rounded-lg flex-col p-3 mb-3  shadow-black/10"
     >
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
-          <View className="bg-primary/10 w-12 aspect-square rounded-lg flex justify-center items-center me-3">
-            <Icons.CodeBracketIcon fill={"#0b357f"} size={24} />
+          <View className="bg-secondary-container w-12 aspect-square rounded-lg flex justify-center items-center me-3">
+            <Icons.CodeBracketIcon fill={"#232323"} size={24} />
           </View>
           {/* Habit Name */}
           <View className="flex-col justify-center">
@@ -83,15 +85,18 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
         </View>
         {/* Button */}
         <TouchableOpacity
-          className="bg-primary w-12 aspect-square rounded-lg flex justify-center items-center"
+          className="bg-primary 2 w-12 aspect-square rounded-lg flex justify-center items-center"
           onPress={() => {
-            const currentDate = dayjs();
-            const formattedDate = currentDate.format('YYYY-MM-DD');
-            habitEntry(id, formattedDate);
+            if (dateCounts[formattedDate] < 4 || days.length === 0) {
+              habitEntry(id, formattedDate);
+            }
+
             getHaptic();
           }}
         >
-          <Icons.CheckIcon fill={"white"} size={24} />
+          <View className="">
+            <Icons.CheckIcon fill={"white"} size={24} />
+          </View>
         </TouchableOpacity>
       </View>
       {/* Days Grid and Button */}
