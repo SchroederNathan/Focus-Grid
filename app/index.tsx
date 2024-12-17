@@ -37,17 +37,14 @@ export default function Home() {
           className="rounded-t-lg pb-24 overflow-visible"
           ItemSeparatorComponent={() => <View className="h-3" />}
           renderItem={({ item, index }) => (
-            <>
-              <HabitCard
-                id={item.id}
-                name={item.name}
-                description={item.description}
-                days={item.days}
-                icon={item.icon}
-                habitEntry={habitEntry}
-              />
-              {item.icon}
-            </>
+            <HabitCard
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              days={item.days}
+              icon={item.icon}
+              habitEntry={habitEntry}
+            />
           )}
         />
         <StatusBar style="dark" />
