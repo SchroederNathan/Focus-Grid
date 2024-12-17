@@ -39,6 +39,17 @@ export const useHabitsStore = create<HabitState>()(
             habit.id === id ? { ...habit, days: [...habit.days, day] } : habit
           ),
         })),
+      removeDateFromHabit: (id: string, date: string) =>
+        set((state: any) => ({
+          habits: state.habits.map((habit: Habit) =>
+            habit.id === id
+              ? {
+                  ...habit,
+                  days: habit.days.filter((day) => day.date === date),
+                }
+              : habit
+          ),
+        })),
     }),
     {
       name: "habits-storage", // name of the item in the storage (must be unique)

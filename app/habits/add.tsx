@@ -120,16 +120,14 @@ const AddHabitScreen = () => {
           <Text className="text-text font-lmedium mb-2">Icon</Text>
 
           {/* Horizontal scrolling icon rows */}
-          {/* <FlatList
+          <FlatList
             data={chunkedIcons}
             renderItem={renderIconRow}
             keyExtractor={(item, index) => index.toString()}
+            
 
-            numColumns={5} // Display 5 icons per row
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-            showsHorizontalScrollIndicator={false}
             className="max-h-40" // Limit height to show partial next row
-          /> */}
+          />
 
           <PrimaryButton
             title="Create"

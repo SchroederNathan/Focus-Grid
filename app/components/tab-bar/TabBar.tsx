@@ -1,3 +1,4 @@
+
 import * as Haptics from "expo-haptics";
 import { router, usePathname } from "expo-router";
 import React from "react";
@@ -106,7 +107,7 @@ const TabBar = ({ otherStyles }: TabBarProps) => {
         isHidden ? "-z-10" : ""
       }`}
     >
-      <View className="flex-row justify-center items-center ">
+      <View className="flex-row justify-center items-center mb-3">
         <View
           className={`flex-row px-9 gap-14 h-20 rounded-full justify-center items-center bg-text relative ${otherStyles}`}
         >

@@ -17,14 +17,18 @@ const Header = ({
   const styling = handleBackPress ? "" : "justify-between";
 
   return (
-    <View className={` py-6 mt-3 flex-row ${styling} items-center  bg-background px-6 z-50`}>
+    <View
+      className={` py-6 mt-3 flex-row ${styling} items-center  bg-background px-6 z-50`}
+    >
       {/* Header back button */}
       {handleBackPress ? (
         <TouchableOpacity
           className="flex-row items-center "
           onPress={() => handleBackPress()}
         >
-          <Icons.ChevronLeftIcon fill={"#232323"} size={24} />
+          <View className="mb-2">
+            <Icons.ChevronLeftIcon fill={"#232323"} size={24} />
+          </View>
           <Text className="ms-3 text-5xl w-100 font-lsemibold text-text">
             {name}
           </Text>

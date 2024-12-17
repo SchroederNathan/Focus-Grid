@@ -1,5 +1,6 @@
 import { generateLast90Days } from "@/helpers/CardHelpers";
 import { Habit } from "@/models/models";
+import { useHabitsStore } from "@/zustand/store";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
@@ -23,6 +24,10 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     dayjs(day.date).format("YYYY-MM-DD")
   );
 
+  const removeDateFromHabit = useHabitsStore(
+    (state: any) => state.removeDateFromHabit
+  );
+
   const last60Days = generateLast90Days();
   const currentDate = dayjs();
   const formattedDate = currentDate.format("YYYY-MM-DD");
@@ -44,23 +49,6 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     if (count === 2) return "bg-primary/50";
     if (count === 1) return "bg-primary/25";
     return "bg-secondary-container"; // Default for uncompleted days
-  };
-
-  const getHaptic = () => {
-    // get todays date
-    const today = new Date();
-    const date = today.toISOString().split("T")[0];
-    const count = dateCounts[date] || 0;
-    if (count >= 4)
-      return Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    if (count === 3)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    if (count === 2)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    if (count === 1)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    if (count === 0)
-      return Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Rigid);
   };
 
   return (
@@ -89,9 +77,12 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
           onPress={() => {
             if (dateCounts[formattedDate] < 4 || days.length === 0) {
               habitEntry(id, formattedDate);
+            } else {
+              //update habit to remove any instances of formattedDate
+              removeDateFromHabit(id, formattedDate);
             }
 
-            getHaptic();
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           }}
         >
           <View className="">

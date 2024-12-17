@@ -1,14 +1,11 @@
 import { useHabitsStore } from "@/zustand/store";
-import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { FlatList, Text, View } from "react-native";
-import HabitCard from "./components/HabitCard";
-import PrimaryButton from "./components/PrimaryButton";
-import Header from "./components/Header";
-import TabBar from "./components/tab-bar/TabBar";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HabitCard from "./components/HabitCard";
+import Header from "./components/Header";
 
 export default function Home() {
   const router = useRouter();
