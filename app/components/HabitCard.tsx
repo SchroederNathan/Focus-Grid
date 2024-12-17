@@ -1,4 +1,5 @@
 import { generateLast90Days } from "@/helpers/CardHelpers";
+import { heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import clsx from "clsx";
@@ -6,26 +7,37 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
 import * as Haptics from "expo-haptics";
-import React from "react";
+import React, { useMemo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 
 dayjs.extend(utc); // use plugin
 dayjs.extend(timezone); // use plugin
 
-// dayjs.extend(isSameOrBefore);
-
 interface HabitProps extends Habit {
   habitEntry: (id: string, date: string) => void;
 }
 
-const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
+const HabitCard = ({
+  id,
+  name,
+  description,
+  days,
+  icon,
+  habitEntry,
+}: HabitProps) => {
   const completedDates = days.map((day) =>
     dayjs(day.date).format("YYYY-MM-DD")
   );
 
   const removeDateFromHabit = useHabitsStore(
     (state: any) => state.removeDateFromHabit
+  );
+
+  // Validate and filter icons to ensure they are valid
+  const validIcons = useMemo(
+    () => heroIcons.filter((icon) => icon && typeof icon === "function"),
+    [heroIcons]
   );
 
   const last60Days = generateLast90Days();
@@ -51,15 +63,34 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
     return "bg-secondary-container"; // Default for uncompleted days
   };
 
+  const renderIcon = (IconComponent: any, index: number) => {
+    return (
+      <View
+        key={`icon-${index}`}
+        className={`
+          bg-secondary-container 
+          w-12
+          h-12
+          rounded-lg 
+          flex 
+          justify-center 
+          items-center 
+        `}
+      >
+        <IconComponent color={"#232323"} size={24} strokeWidth={2} />
+      </View>
+    );
+  };
+
   return (
     <View
       key={id}
-      className="bg-accent rounded-lg flex-col p-3 mb-3  shadow-black/10"
+      className="bg-accent rounded-lg flex-col p-3 mb-3 shadow-black/10"
     >
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
           <View className="bg-secondary-container w-12 aspect-square rounded-lg flex justify-center items-center me-3">
-            <Icons.CodeBracketIcon fill={"#232323"} size={24} />
+            {renderIcon(validIcons[icon], icon)}
           </View>
           {/* Habit Name */}
           <View className="flex-col justify-center">
@@ -85,9 +116,7 @@ const HabitCard = ({ id, name, description, days, habitEntry }: HabitProps) => {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           }}
         >
-          <View className="">
-            <Icons.CheckIcon fill={"white"} size={24} />
-          </View>
+          <Icons.CheckIcon fill={"white"} size={24} />
         </TouchableOpacity>
       </View>
       {/* Days Grid and Button */}

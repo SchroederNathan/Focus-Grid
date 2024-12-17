@@ -6,6 +6,6 @@ export interface Habit {
   id: string;
   name: string;
   description?: string;
-  icon?: any;
+  icon: number;
   days: HabitDay[]; // Array of completed days
 }

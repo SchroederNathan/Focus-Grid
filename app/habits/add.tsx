@@ -1,31 +1,30 @@
+import { DismissKeyboard } from "@/helpers/CardHelpers";
+import { heroIcons } from "@/helpers/Icons";
+import { Habit } from "@/models/models";
+import { guidGenerator } from "@/services/habitService";
+import { useHabitsStore } from "@/zustand/store";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import { FlatList, Text, View, Dimensions } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
-import { guidGenerator } from "@/services/habitService";
-import { Habit } from "@/models/models";
-import { useHabitsStore } from "@/zustand/store";
-import { DismissKeyboard } from "@/helpers/CardHelpers";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { heroIcons } from "@/helpers/Icons";
 
 const AddHabitScreen = () => {
   const addHabit = useHabitsStore((state) => state.addHabit);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedIcon, setSelectedIcon] = useState<any>(null);
 
-  const onChangeName = (text: string) => {
-    setName(text);
-  };
+  // Validate and filter icons to ensure they are valid
+  const validIcons = useMemo(
+    () => heroIcons.filter((icon) => icon && typeof icon === "function"),
+    [heroIcons]
+  );
 
-  const onChangeDescription = (text: string) => {
-    setDescription(text);
-  };
+  const [selectedIconIndex, setSelectedIconIndex] = useState<number>(0); // Track selected icon by index
 
   const handleCreate = () => {
     const habit: Habit = {
@@ -33,10 +32,10 @@ const AddHabitScreen = () => {
       name: name,
       description: description,
       days: [],
-      // icon: selectedIcon!, // Optional: store selected icon
+      // Optional: Store icon or index
+      icon: selectedIconIndex,
     };
 
-    // Validate and add
     if (name.trim()) {
       addHabit(habit);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -44,52 +43,26 @@ const AddHabitScreen = () => {
     }
   };
 
-  // Calculate number of icons per row based on screen width
-  const screenWidth = Dimensions.get("window").width;
-  const iconSize = 48; // Adjust based on your design
-  const iconSpacing = 12; // Space between icons
-  const iconsPerRow = Math.floor(screenWidth / (iconSize + iconSpacing));
-
-  // Chunk the icons into rows
-  const chunkedIcons = heroIcons.reduce((resultArray: any, item, index) => {
-    const chunkIndex = Math.floor(index / iconsPerRow);
-
-    if (!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = []; // start a new chunk
-    }
-
-    resultArray[chunkIndex].push(item);
-
-    return resultArray;
-  }, []);
-
-  const renderIconRow = ({ item: iconRow }: { item: any[] }) => (
-    <View className="flex-row justify-center mb-2">
-      {iconRow.map((IconComponent, index) => (
-        <View
-          key={index}
-          className={`
-            bg-secondary-container 
-            w-12 
-            aspect-square 
-            rounded-lg 
-            flex 
-            justify-center 
-            items-center 
-            mr-3 
-            ${selectedIcon === IconComponent ? "border-2 border-primary" : ""}
-          `}
-        >
-          <IconComponent
-            size={24}
-            strokeWidth={2}
-            color="black"
-            onPress={() => setSelectedIcon(IconComponent)}
-          />
-        </View>
-      ))}
-    </View>
-  );
+  const renderIcon = (IconComponent: any, index: number) => {
+    return (
+      <TouchableOpacity
+        key={`icon-${index}`}
+        className={`
+          bg-secondary-container 
+          w-12
+          h-12
+          rounded-lg 
+          flex 
+          justify-center 
+          items-center 
+          ${selectedIconIndex === index ? "border-2 border-secondary" : ""}
+        `}
+        onPress={() => setSelectedIconIndex(index)} // Set selected icon index
+      >
+        <IconComponent color={"#232323"} size={24} strokeWidth={2} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-background overflow-visible relative">
@@ -102,7 +75,7 @@ const AddHabitScreen = () => {
             maxLength={42}
             hideMaxLength={true}
             placeholder={"Ex. Morning Run"}
-            handleChangeText={onChangeName}
+            handleChangeText={setName}
             keyboardType="default"
             otherStyles="mb-4"
           />
@@ -112,22 +85,19 @@ const AddHabitScreen = () => {
             value={description}
             maxLength={42}
             placeholder={"Add a brief description (optional)"}
-            handleChangeText={onChangeDescription}
+            handleChangeText={setDescription}
             keyboardType="default"
-            otherStyles="mb-4"
+            otherStyles="mb-2"
           />
 
           <Text className="text-text font-lmedium mb-2">Icon</Text>
 
-          {/* Horizontal scrolling icon rows */}
-          <FlatList
-            data={chunkedIcons}
-            renderItem={renderIconRow}
-            keyExtractor={(item, index) => index.toString()}
-            
-
-            className="max-h-40" // Limit height to show partial next row
-          />
+          {/* Optimized scrolling container for icon rows */}
+          <View className="flex-row flex-wrap gap-2 mb-4">
+            {validIcons.map((IconComponent, index) =>
+              renderIcon(IconComponent, index)
+            )}
+          </View>
 
           <PrimaryButton
             title="Create"

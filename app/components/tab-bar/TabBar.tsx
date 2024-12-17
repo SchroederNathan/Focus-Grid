@@ -1,4 +1,3 @@
-
 import * as Haptics from "expo-haptics";
 import { router, usePathname } from "expo-router";
 import React from "react";

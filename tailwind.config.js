@@ -9,7 +9,7 @@ module.exports = {
         text: "#2f3036",
         background: "#faf8ff",
         primary: "#2e4074",
-        secondary: "#54AF61",
+        secondary: "#6A7EA5",
         accent: "#eeedf4",
         "secondary-container": "#dad9e0",
         "on-container": "#7B7E7E",

@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 interface HeaderProps {
   name: string;
@@ -27,9 +26,9 @@ const Header = ({
           onPress={() => handleBackPress()}
         >
           <View className="mb-2">
-            <Icons.ChevronLeftIcon fill={"#232323"} size={24} />
+            <Icons.ChevronLeftIcon stroke={"#232323"} size={24} />
           </View>
-          <Text className="ms-3 text-5xl w-100 font-lsemibold text-text">
+          <Text className="ms-3 text-5xl w-100 font-lsemibold text-text py-1">
             {name}
           </Text>
         </TouchableOpacity>
