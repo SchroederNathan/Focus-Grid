@@ -23,6 +23,7 @@ const HabitCard = ({
   name,
   description,
   days,
+  maxEntries,
   icon,
   habitEntry,
 }: HabitProps) => {
@@ -106,7 +107,7 @@ const HabitCard = ({
         <TouchableOpacity
           className="bg-primary 2 w-12 aspect-square rounded-lg flex justify-center items-center"
           onPress={() => {
-            if (dateCounts[formattedDate] < 4 || days.length === 0) {
+            if (dateCounts[formattedDate] < maxEntries || days.length === 0) {
               habitEntry(id, formattedDate);
             } else {
               //update habit to remove any instances of formattedDate

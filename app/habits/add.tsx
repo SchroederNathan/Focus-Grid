@@ -11,12 +11,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
+import NumberStepper from "../components/NumberStepper";
 
 const AddHabitScreen = () => {
   const addHabit = useHabitsStore((state) => state.addHabit);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [maxEntries, setMaxEntries] = useState<number>(1);
 
   // Validate and filter icons to ensure they are valid
   const validIcons = useMemo(
@@ -32,7 +34,7 @@ const AddHabitScreen = () => {
       name: name,
       description: description,
       days: [],
-      // Optional: Store icon or index
+      maxEntries: maxEntries,
       icon: selectedIconIndex,
     };
 
@@ -87,7 +89,14 @@ const AddHabitScreen = () => {
             placeholder={"Add a brief description (optional)"}
             handleChangeText={setDescription}
             keyboardType="default"
-            otherStyles="mb-2"
+            otherStyles="mb-4"
+          />
+
+          <NumberStepper
+            title="Entries Per Day"
+            otherStyles="mb-4"
+            value={maxEntries}
+            onChange={setMaxEntries}
           />
 
           <Text className="text-text font-lmedium mb-2">Icon</Text>
