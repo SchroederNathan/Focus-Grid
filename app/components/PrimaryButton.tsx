@@ -9,7 +9,6 @@ interface ButtonProps {
 }
 
 const PrimaryButton = ({ onPress, title, color, otherStyles }: ButtonProps) => {
-
   return (
     <View className={`flex-row space-x-4 ${otherStyles}`}>
       <TouchableOpacity

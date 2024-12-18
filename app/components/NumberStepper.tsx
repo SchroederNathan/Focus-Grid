@@ -32,7 +32,9 @@ const NumberStepper = ({
         </TouchableOpacity>
         <Text className="text-text font-lmedium w-12 text-center">{value}</Text>
         <TouchableOpacity
-          className={`${value >= 25 ? 'bg-secondary-container' : 'bg-primary'} w-12 aspect-square rounded-e-lg flex justify-center items-center`}
+          className={`${
+            value >= 25 ? "bg-secondary-container" : "bg-primary"
+          } w-12 aspect-square rounded-e-lg flex justify-center items-center`}
           onPress={() => value < 25 && onChange(value + 1)}
           disabled={value >= 25}
         >

@@ -116,15 +116,14 @@ const HabitCard = ({
           onPress={() => {
             if (dateCounts[formattedDate] < maxEntries || days.length === 0) {
               habitEntry(id, formattedDate);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success
+              );
             } else {
               //update habit to remove any instances of formattedDate
               removeDateFromHabit(id, formattedDate);
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-
             }
-
           }}
         >
           <Icons.CheckIcon fill={"white"} size={24} />

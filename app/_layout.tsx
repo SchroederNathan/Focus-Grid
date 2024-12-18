@@ -1,13 +1,10 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { HoldMenuProvider } from "react-native-hold-menu";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import "../global.css";
 import TabBar from "./components/tab-bar/TabBar";
-import { HoldMenuProvider } from "react-native-hold-menu";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -25,7 +22,7 @@ export default function RootLayout() {
   });
 
   const insets = useSafeAreaInsets();
-  g
+
   useEffect(() => {
     if (error) throw error;
 

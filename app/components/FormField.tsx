@@ -34,24 +34,23 @@ const FormField = ({
     <View className={`${otherStyles}`}>
       <Text className="text-text font-lmedium mb-1">{title}</Text>
       <View
-      className={`w-full h-14 px-4 bg-accent shadow-black/10 rounded-lg flex flex-row items-center ${
-        isFocused ? "border-2 border-on-container" : ""
-      }`}
-
-    >
-      <TextInput
-        className="flex-1 text-text font-lregular"
-        value={value}
-        keyboardType={keyboardType}
-        placeholder={placeholder}
-        placeholderTextColor="#7B7E7E"
-        onChangeText={onTextChange}
-        maxLength={maxLength || undefined}
-        onFocus={() => setIsFocused(true)}   // Set focus state
-        onBlur={() => setIsFocused(false)}   // Remove focus state
-        {...props}
-      />
-    </View>
+        className={`w-full h-14 px-4 bg-accent shadow-black/10 rounded-lg flex flex-row items-center ${
+          isFocused ? "border-2 border-on-container" : ""
+        }`}
+      >
+        <TextInput
+          className="flex-1 text-text font-lregular"
+          value={value}
+          keyboardType={keyboardType}
+          placeholder={placeholder}
+          placeholderTextColor="#7B7E7E"
+          onChangeText={onTextChange}
+          maxLength={maxLength || undefined}
+          onFocus={() => setIsFocused(true)} // Set focus state
+          onBlur={() => setIsFocused(false)} // Remove focus state
+          {...props}
+        />
+      </View>
       {maxLength && !hideMaxLength && (
         <Text className="text-text font-lmedium text-right mt-1">
           {`${currentLength}/${maxLength}`}
