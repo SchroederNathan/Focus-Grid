@@ -42,7 +42,7 @@ export default function Home() {
               name={item.name}
               description={item.description}
               days={item.days}
-              maxEntries={item.maxEntries}
+              maxEntries={item.maxEntries || 4}
               icon={item.icon}
               habitEntry={habitEntry}
             />

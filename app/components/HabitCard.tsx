@@ -2,7 +2,6 @@ import { generateLast90Days } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
-import clsx from "clsx";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
@@ -57,11 +56,19 @@ const HabitCard = ({
   // Function to map count to opacity class
   const getColor = (date: string) => {
     const count = dateCounts[date] || 0;
-    if (count >= 4) return "bg-primary"; // Full opacity
-    if (count === 3) return "bg-primary/75";
-    if (count === 2) return "bg-primary/50";
-    if (count === 1) return "bg-primary/25";
-    return "bg-secondary-container"; // Default for uncompleted days
+
+    if (count === 0)
+      return {
+        backgroundColor: "#dad9e0",
+      };
+
+    // Scale opacity from 0.1 to 1.0
+    const opacity = 0.1 + 0.9 * Math.min(count / maxEntries, 1);
+
+    return {
+      backgroundColor: "#2e4074",
+      opacity: opacity,
+    };
   };
 
   const renderIcon = (IconComponent: any, index: number) => {
@@ -90,7 +97,7 @@ const HabitCard = ({
     >
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
-          <View className="bg-secondary-container w-12 aspect-square rounded-lg flex justify-center items-center me-3">
+          <View className="bg-secondary-container/ w-12 aspect-square rounded-lg flex justify-center items-center me-3">
             {renderIcon(validIcons[icon], icon)}
           </View>
           {/* Habit Name */}
@@ -109,12 +116,14 @@ const HabitCard = ({
           onPress={() => {
             if (dateCounts[formattedDate] < maxEntries || days.length === 0) {
               habitEntry(id, formattedDate);
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success
+              );
             } else {
               //update habit to remove any instances of formattedDate
               removeDateFromHabit(id, formattedDate);
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             }
-
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           }}
         >
           <Icons.CheckIcon fill={"white"} size={24} />
@@ -127,10 +136,14 @@ const HabitCard = ({
           {last60Days.map((day) => (
             <View
               key={day}
-              className={clsx("aspect-square rounded-md", getColor(day))}
-              style={{
-                flexBasis: `${100 / 23}%`, // Adjust for a 23-column grid
-              }}
+              style={[
+                {
+                  aspectRatio: 1,
+                  borderRadius: 6,
+                  flexBasis: `${100 / 23}%`,
+                },
+                getColor(day),
+              ]}
               accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
             />
           ))}

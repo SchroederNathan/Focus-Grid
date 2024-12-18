@@ -23,10 +23,10 @@ const NumberStepper = ({
       <View className="flex-row items-center">
         <TouchableOpacity
           className={`${
-            value === 0 ? "bg-secondary-container" : "bg-primary"
+            value <= 1 ? "bg-secondary-container" : "bg-primary"
           } w-12 aspect-square rounded-s-lg flex justify-center items-center`}
           onPress={() => value > 0 && onChange(value - 1)}
-          disabled={value === 0}
+          disabled={value === 1}
         >
           <Icons.MinusIcon color={"white"} size={24} />
         </TouchableOpacity>
