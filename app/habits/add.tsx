@@ -6,7 +6,7 @@ import { useHabitsStore } from "@/zustand/store";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
@@ -70,7 +70,7 @@ const AddHabitScreen = () => {
     <SafeAreaView className="flex-1 bg-background overflow-visible relative">
       <Header name="Add Habit" />
       <DismissKeyboard>
-        <View className="flex-1 px-4 py-2 bg-background overflow-visible">
+        <ScrollView className="flex-1 px-4 py-2 bg-background">
           <FormField
             title="Name"
             value={name}
@@ -110,11 +110,11 @@ const AddHabitScreen = () => {
 
           <PrimaryButton
             title="Create"
-            otherStyles="mt-4"
+            otherStyles="mt-4 mb-4"
             onPress={handleCreate}
             color="bg-primary"
           />
-        </View>
+        </ScrollView>
       </DismissKeyboard>
     </SafeAreaView>
   );
