@@ -28,6 +28,7 @@ export default function Home() {
 
   const renderHabitCard = ({ item }: { item: any }) => (
     <HoldItem
+      menuAnchorPosition="top-right"
       items={[
         {
           text: 'Edit',
@@ -41,7 +42,6 @@ export default function Home() {
           onPress: () => removeHabit(item.id),
         },
       ]}
-      menuAnchorPosition="top-right"
     >
       <HabitCard
         id={item.id}
@@ -56,7 +56,6 @@ export default function Home() {
   );
 
   return (
-    <HoldMenuProvider safeAreaInsets={insets}>
       <SafeAreaView className="flex-1 bg-background overflow-hidden relative">
         <Header
           name="Habit Tracker"
@@ -74,6 +73,6 @@ export default function Home() {
           <StatusBar style="dark" />
         </View>
       </SafeAreaView>
-    </HoldMenuProvider>
+
   );
 }

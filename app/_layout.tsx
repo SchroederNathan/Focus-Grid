@@ -1,9 +1,13 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import "../global.css";
 import TabBar from "./components/tab-bar/TabBar";
+import { HoldMenuProvider } from "react-native-hold-menu";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +24,8 @@ export default function RootLayout() {
     "Lexend-Thin": require("../assets/fonts/Lexend-Thin.ttf"),
   });
 
+  const insets = useSafeAreaInsets();
+  g
   useEffect(() => {
     if (error) throw error;
 
@@ -34,12 +40,14 @@ export default function RootLayout() {
 
   return (
     <>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="habits/add" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ headerShown: false }} />
-      </Stack>
-      <TabBar />
+      <HoldMenuProvider safeAreaInsets={insets}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="habits/add" options={{ headerShown: false }} />
+          <Stack.Screen name="settings" options={{ headerShown: false }} />
+        </Stack>
+        <TabBar />
+      </HoldMenuProvider>
     </>
   );
 }
