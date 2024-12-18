@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/outline";
@@ -24,8 +25,11 @@ const NumberStepper = ({
         <TouchableOpacity
           className={`${
             value <= 1 ? "bg-secondary-container" : "bg-primary"
-          } w-12 aspect-square rounded-s-lg flex justify-center items-center`}
-          onPress={() => value > 0 && onChange(value - 1)}
+          } w-12 aspect-square flex justify-center items-center`}
+          style={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
+          onPress={() =>
+            value > 0 && (onChange(value - 1), Haptics.selectionAsync())
+          }
           disabled={value === 1}
         >
           <Icons.MinusIcon color={"white"} size={24} />
@@ -34,8 +38,11 @@ const NumberStepper = ({
         <TouchableOpacity
           className={`${
             value >= 25 ? "bg-secondary-container" : "bg-primary"
-          } w-12 aspect-square rounded-e-lg flex justify-center items-center`}
-          onPress={() => value < 25 && onChange(value + 1)}
+          } w-12 aspect-square flex justify-center items-center`}
+          style={{ borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
+          onPress={() =>
+            value < 25 && (onChange(value + 1), Haptics.selectionAsync())
+          }
           disabled={value >= 25}
         >
           <Icons.PlusIcon color={"white"} size={24} />

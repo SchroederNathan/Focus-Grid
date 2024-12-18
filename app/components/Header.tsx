@@ -26,7 +26,12 @@ const Header = ({
           onPress={() => handleBackPress()}
         >
           <View className="mb-2">
-            <Icons.ChevronLeftIcon stroke={"#232323"} size={24} />
+            <Icons.ChevronLeftIcon
+              stroke={"#2f3036"}
+              fill={"#2f3036"}
+              strokeWidth={1.5}
+              size={24}
+            />
           </View>
           <Text className="ms-3 text-5xl w-100 font-lsemibold text-text py-1">
             {name}
@@ -44,7 +49,7 @@ const Header = ({
           className="p-3 -me-3"
           onPress={() => handleRightIconPress()}
         >
-          <Icons.Cog6ToothIcon fill={"#232323"} size={24} />
+          <Icons.Cog6ToothIcon fill={"#2f3036"} stroke={"#2f3036"} size={24} />
         </TouchableOpacity>
       )}
     </View>

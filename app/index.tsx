@@ -5,10 +5,7 @@ import React from "react";
 import { FlatList, View } from "react-native";
 import { PencilIcon, TrashIcon } from "react-native-heroicons/outline";
 import { HoldItem } from "react-native-hold-menu";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import HabitCard from "./components/HabitCard";
 import Header from "./components/Header";
 
@@ -31,6 +28,7 @@ export default function Home() {
   const renderHabitCard = ({ item }: { item: any }) => (
     <HoldItem
       menuAnchorPosition="top-right"
+      theme="light"
       items={[
         {
           text: "Edit",
@@ -66,6 +64,7 @@ export default function Home() {
 
       <View className="flex-1 px-4 py-2 bg-background overflow-hidden -mb-12 pb-36">
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={habits}
           keyExtractor={(item) => item.name}
           className="rounded-t-lg pb-24 overflow-visible"

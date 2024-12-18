@@ -1,17 +1,16 @@
-import { DismissKeyboard } from "@/helpers/CardHelpers";
+import { DismissKeyboard, guidGenerator } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
-import { guidGenerator } from "@/helpers/CardHelpers";
 import { useHabitsStore } from "@/zustand/store";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
-import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
-import PrimaryButton from "../components/PrimaryButton";
 import NumberStepper from "../components/NumberStepper";
+import PrimaryButton from "../components/PrimaryButton";
 
 const AddHabitScreen = () => {
   const addHabit = useHabitsStore((state) => state.addHabit);
@@ -69,53 +68,60 @@ const AddHabitScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-background overflow-visible relative">
       <Header name="Add Habit" />
-      <DismissKeyboard>
-        <ScrollView className="flex-1 px-4 py-2 bg-background">
-          <FormField
-            title="Name"
-            value={name}
-            maxLength={42}
-            hideMaxLength={true}
-            placeholder={"Ex. Morning Run"}
-            handleChangeText={setName}
-            keyboardType="default"
-            otherStyles="mb-4"
-          />
+      <View className="flex-1 overflow-hidden -mb-12">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="flex-1 px-4 overflow-visible bg-background "
+        >
+          <DismissKeyboard>
+            <View className="mb-44">
+              <FormField
+                title="Name"
+                value={name}
+                maxLength={42}
+                hideMaxLength={true}
+                placeholder={"Ex. Morning Run"}
+                handleChangeText={setName}
+                keyboardType="default"
+                otherStyles="mb-4"
+              />
 
-          <FormField
-            title="Description"
-            value={description}
-            maxLength={42}
-            placeholder={"Add a brief description (optional)"}
-            handleChangeText={setDescription}
-            keyboardType="default"
-            otherStyles="mb-4"
-          />
+              <FormField
+                title="Description"
+                value={description}
+                maxLength={40}
+                placeholder={"Add a brief description (optional)"}
+                handleChangeText={setDescription}
+                keyboardType="default"
+                otherStyles="mb-4"
+              />
 
-          <NumberStepper
-            title="Entries Per Day"
-            otherStyles="mb-4"
-            value={maxEntries}
-            onChange={setMaxEntries}
-          />
+              <NumberStepper
+                title="Entries Per Day"
+                otherStyles="mb-4"
+                value={maxEntries}
+                onChange={setMaxEntries}
+              />
 
-          <Text className="text-text font-lmedium mb-2">Icon</Text>
+              <Text className="text-text font-lmedium mb-2">Icon</Text>
 
-          {/* Update the icon container */}
-          <View className="flex-row flex-wrap gap-2 mb-4 justify-between">
-            {validIcons.map((IconComponent, index) =>
-              renderIcon(IconComponent, index)
-            )}
-          </View>
+              {/* Update the icon container */}
+              <View className="flex-row flex-wrap gap-2 mb-4 justify-between">
+                {validIcons.map((IconComponent, index) =>
+                  renderIcon(IconComponent, index)
+                )}
+              </View>
 
-          <PrimaryButton
-            title="Create"
-            otherStyles="mt-4 mb-4"
-            onPress={handleCreate}
-            color="bg-primary"
-          />
+              <PrimaryButton
+                title="Create"
+                otherStyles="mt-4"
+                onPress={handleCreate}
+                color="bg-primary"
+              />
+            </View>
+          </DismissKeyboard>
         </ScrollView>
-      </DismissKeyboard>
+      </View>
     </SafeAreaView>
   );
 };
