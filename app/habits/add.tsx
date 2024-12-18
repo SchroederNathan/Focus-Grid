@@ -59,7 +59,7 @@ const AddHabitScreen = () => {
           items-center 
           ${selectedIconIndex === index ? "border-2 border-secondary" : ""}
         `}
-        onPress={() => setSelectedIconIndex(index)} // Set selected icon index
+        onPress={() => setSelectedIconIndex(index)}
       >
         <IconComponent color={"#232323"} size={24} strokeWidth={2} />
       </TouchableOpacity>
@@ -101,8 +101,8 @@ const AddHabitScreen = () => {
 
           <Text className="text-text font-lmedium mb-2">Icon</Text>
 
-          {/* Optimized scrolling container for icon rows */}
-          <View className="flex-row flex-wrap gap-2 mb-4">
+          {/* Update the icon container */}
+          <View className="flex-row flex-wrap gap-2 mb-4 justify-between">
             {validIcons.map((IconComponent, index) =>
               renderIcon(IconComponent, index)
             )}
