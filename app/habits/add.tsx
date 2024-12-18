@@ -1,7 +1,7 @@
 import { DismissKeyboard } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
-import { guidGenerator } from "@/services/habitService";
+import { guidGenerator } from "@/helpers/CardHelpers";
 import { useHabitsStore } from "@/zustand/store";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
