@@ -29,30 +29,42 @@ const TabBar = ({ otherStyles }: TabBarProps) => {
       name: "Home",
       path: "/",
       icon: (isActive: boolean) => (
-        <View
-          className={`rounded-full aspect-square flex justify-center items-center `}
+        <Pressable
+
+          onPress={() => handleNavigation("/")}
+          hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
-          <Icon.HomeIcon
-            color={isActive ? "#F8FAED" : "#8E8F88"}
-            size={24}
-            strokeWidth={3}
-          />
-        </View>
+          <View
+            className={`rounded-full aspect-square flex justify-center items-center`}
+          >
+            <Icon.HomeIcon
+              color={isActive ? "#F8FAED" : "#8E8F88"}
+              size={24}
+              strokeWidth={3}
+            />
+          </View>
+        </Pressable>
       ),
     },
     {
       name: "Create",
       path: "/habits/add",
       icon: (isActive: boolean) => (
-        <View
-          className={`rounded-full aspect-square flex justify-center items-center `}
+        <Pressable
+
+          onPress={() => handleNavigation("/habits/add")}
+          hitSlop={{ top: 20, bottom: 20, left: 0, right: 20 }}
         >
-          <Icon.PlusIcon
-            color={isActive ? "#FFFFFF" : "#8E8F88"}
-            size={24}
-            strokeWidth={3}
-          />
-        </View>
+          <View
+            className={`rounded-full aspect-square flex justify-center items-center`}
+          >
+            <Icon.PlusIcon
+              color={isActive ? "#FFFFFF" : "#8E8F88"}
+              size={24}
+              strokeWidth={3}
+            />
+          </View>
+        </Pressable>
       ),
     },
   ];
@@ -123,13 +135,12 @@ const TabBar = ({ otherStyles }: TabBarProps) => {
             const isActive = effectivePath === route.path;
 
             return (
-              <Pressable
+              <View
                 key={route.path}
-                className="flex-1 m-2 items-center justify-center z-10"
-                onPress={() => handleNavigation(route.path)}
+                className="flex-1 p-2 items-center justify-center z-10"
               >
                 {route.icon(isActive)}
-              </Pressable>
+              </View>
             );
           })}
         </View>
