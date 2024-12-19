@@ -8,6 +8,7 @@ import { HoldItem } from "react-native-hold-menu";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HabitCard from "./components/HabitCard";
 import Header from "./components/Header";
+import { ShareIcon } from "react-native-heroicons/solid";
 
 export default function Home() {
   const router = useRouter();
@@ -40,6 +41,12 @@ export default function Home() {
           icon: () => <TrashIcon size={18} color="#FF0000" />,
           isDestructive: true,
           onPress: () => removeHabit(item.id),
+          withSeparator: true,
+        },
+        {
+          text: "Share",
+          icon: () => <ShareIcon size={18} color="#000" />,
+          onPress: () => console.log("Share"),
         },
       ]}
     >

@@ -7,7 +7,7 @@ import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
 import * as Haptics from "expo-haptics";
 import React, { useMemo } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Animated } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 
 dayjs.extend(utc); // use plugin
@@ -90,6 +90,9 @@ const HabitCard = ({
     );
   };
 
+  // Get today's entries count
+  const todayEntries = dateCounts[formattedDate] || 0;
+
   return (
     <View
       key={id}
@@ -129,6 +132,28 @@ const HabitCard = ({
           <Icons.CheckIcon fill={"white"} size={24} />
         </TouchableOpacity>
       </View>
+      {/* Progress Bar */}
+      {maxEntries > 1 && (
+        <View className="h-2 bg-secondary-container rounded-full mb-3 overflow-hidden">
+          {/* Entry segments */}
+
+          <View className="absolute top-0 left-0 right-0 bottom-0 flex-row">
+            {[...Array(maxEntries)].map((_, index) => (
+              <View
+                key={`segment-${index}`}
+                className="flex-1"
+                style={{
+                  backgroundColor:
+                    index < todayEntries ? "#2e4074" : "transparent",
+                  borderRightWidth: index < maxEntries - 1 ? 3 : 0,
+                  borderColor: "#eeedf4",
+                  // marginRight: index < maxEntries - 1 ? 2 : 0,
+                }}
+              />
+            ))}
+          </View>
+        </View>
+      )}
       {/* Days Grid and Button */}
       <View className="flex-row items-center ">
         {/* Days Grid */}
