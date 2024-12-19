@@ -7,7 +7,7 @@ import timezone from "dayjs/plugin/timezone"; // import plugin
 import utc from "dayjs/plugin/utc"; // Day.js timezone depends on utc plugin
 import * as Haptics from "expo-haptics";
 import React, { useMemo } from "react";
-import { Text, TouchableOpacity, View, Animated } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import * as Icons from "react-native-heroicons/solid";
 
 dayjs.extend(utc); // use plugin
@@ -110,8 +110,10 @@ const HabitCard = ({
             {/* Habit Streak */}
 
             <View className="flex-row items-center">
-              <Text className="text-lg font-lsemibold text-text me-1">{name}</Text>
-              
+              <Text className="text-lg font-lsemibold text-text me-1">
+                {name}
+              </Text>
+
               <Icons.FireIcon size={18} color="#2e4074" />
               <Text className="text-sm ms-0.5 font-lsemibold text-text/70">
                 {streak}
@@ -129,13 +131,13 @@ const HabitCard = ({
         <TouchableOpacity
           className="bg-primary 2 w-12 aspect-square rounded-lg flex justify-center items-center"
           onPress={() => {
-            if (dateCounts[formattedDate] < maxEntries || days.length === 0) {
+            const currentCount = dateCounts[formattedDate] || 0;
+            if (currentCount < maxEntries) {
               habitEntry(id, formattedDate);
               Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
               );
             } else {
-              //update habit to remove any instances of formattedDate
               removeDateFromHabit(id, formattedDate);
               Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             }
@@ -158,7 +160,7 @@ const HabitCard = ({
                   backgroundColor:
                     index < todayEntries ? "#2e4074" : "transparent",
                   borderRightWidth: index < maxEntries - 1 ? 3 : 0,
-                  borderColor: "#eeedf4",gi
+                  borderColor: "#eeedf4",
                 }}
               />
             ))}

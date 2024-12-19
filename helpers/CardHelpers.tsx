@@ -52,36 +52,25 @@ export const guidGenerator = () => {
 };
 
 export const getHabitStreak = (days: HabitDay[]) => {
-  // Sort days by date in descending order
-  const sortedDays = [...days].sort(
-    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
-  );
+  if (!days || days.length === 0) return 0;
 
+  const today = dayjs();
+  const yesterday = today.subtract(1, "day");
   let streak = 0;
-  let currentDate = dayjs();
+  let currentDate = yesterday; // Start checking from yesterday
 
-  // Count consecutive days from today backwards
-  for (let i = 0; i < sortedDays.length; i++) {
-    const date = dayjs(sortedDays[i].date);
+  // Create a Set of dates for O(1) lookup
+  const datesSet = new Set(days.map((day) => day.date));
 
-    // If this is the first day, just increment streak
-    if (i === 0) {
-      if (date.isSame(currentDate, "day")) {
-        streak++;
-        currentDate = currentDate.subtract(1, "day");
-        continue;
-      } else {
-        break;
-      }
-    }
+  // Count backwards from yesterday until we find a day that wasn't completed
+  while (datesSet.has(currentDate.format("YYYY-MM-DD"))) {
+    streak++;
+    currentDate = currentDate.subtract(1, "day");
+  }
 
-    // Check if this date is consecutive with previous date
-    if (date.isSame(currentDate, "day")) {
-      streak++;
-      currentDate = currentDate.subtract(1, "day");
-    } else {
-      break;
-    }
+  // If we have a streak and today is already completed, add one more day
+  if (datesSet.has(today.format("YYYY-MM-DD"))) {
+    streak++;
   }
 
   return streak;

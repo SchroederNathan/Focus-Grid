@@ -1,19 +1,19 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import React, { useMemo, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
-import { useHabitsStore } from "@/zustand/store";
-import Header from "@/app/components/Header";
-import { DismissKeyboard } from "@/helpers/CardHelpers";
 import FormField from "@/app/components/FormField";
+import Header from "@/app/components/Header";
 import NumberStepper from "@/app/components/NumberStepper";
 import PrimaryButton from "@/app/components/PrimaryButton";
+import { DismissKeyboard } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
+import { useHabitsStore } from "@/zustand/store";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useMemo, useState } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const edit = () => {
   const { id } = useLocalSearchParams();
@@ -21,7 +21,7 @@ const edit = () => {
   // get habit from id
   const habits = useHabitsStore((state: any) => state.habits);
   const updateHabit = useHabitsStore((state: any) => state.updateHabit);
-  
+
   const habit = habits.find((habit: any) => habit.id === id);
 
   const [name, setName] = useState(habit.name);
@@ -116,7 +116,7 @@ const edit = () => {
               </View>
 
               <PrimaryButton
-                title="Update Habit"
+                title="Update"
                 otherStyles="mt-4"
                 onPress={handleUpdate}
                 color="bg-primary"

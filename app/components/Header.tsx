@@ -4,12 +4,14 @@ import * as Icons from "react-native-heroicons/solid";
 
 interface HeaderProps {
   name: string;
+  accentText?: string;
   handleBackPress?: () => void;
   handleRightIconPress?: () => void;
 }
 
 const Header = ({
   name,
+  accentText,
   handleBackPress,
   handleRightIconPress,
 }: HeaderProps) => {
@@ -22,7 +24,7 @@ const Header = ({
       {/* Header back button */}
       {handleBackPress ? (
         <TouchableOpacity
-          className="flex-row items-center "
+          className="flex-row items-center"
           onPress={() => handleBackPress()}
         >
           <View className="mb-2">
@@ -33,14 +35,28 @@ const Header = ({
               size={24}
             />
           </View>
-          <Text className="ms-3 text-5xl w-100 font-lsemibold text-text py-1">
-            {name}
-          </Text>
+          <View className="flex-row items-center">
+            <Text className="ms-3 text-5xl  font-lsemibold text-text py-1">
+              {name}
+            </Text>
+            {accentText && (
+              <Text className="ms-3 text-5xl  font-lsemibold text-text py-1">
+                {accentText}
+              </Text>
+            )}
+          </View>
         </TouchableOpacity>
       ) : (
-        <Text className="text-5xl w-100 font-lsemibold text-text py-1">
-          {name}
-        </Text>
+        <View className="flex-row items-center">
+          <Text className="text-5xl w-100 font-lsemibold text-text py-1">
+            {name}
+          </Text>
+          {accentText && (
+            <Text className="text-5xl font-lsemibold text-primary py-1">
+              {accentText}
+            </Text>
+          )}
+        </View>
       )}
 
       {/* Header right icon */}

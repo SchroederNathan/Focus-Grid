@@ -1,4 +1,4 @@
-import { Habit } from "@/models/models";
+import { Habit, HabitDay } from "@/models/models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -9,6 +9,8 @@ interface HabitState {
   removeHabit: (id: string) => void;
   updateHabit: (id: string, updatedHabit: Habit) => void;
   addHabitEntry: (id: string, day: string) => void;
+  removeDateFromHabit: (id: string, date: string) => void;
+  setHabitDays: (id: string, days: HabitDay[]) => void;
 }
 
 export const useHabitsStore = create<HabitState>()(
@@ -18,7 +20,7 @@ export const useHabitsStore = create<HabitState>()(
       // Add a new habit
       addHabit: (habit: Habit) =>
         set((state: any) => ({
-          habits: [...state.habits, habit],
+          habits: [...state.habits, { ...habit, days: [] }],
         })),
       // Remove a habit by its id
       removeHabit: (id: string) =>
@@ -33,21 +35,32 @@ export const useHabitsStore = create<HabitState>()(
             habit.id === id ? { ...habit, ...updatedHabit } : habit
           ),
         })),
-      addHabitEntry: (id: string, day: string) =>
-        set((state: any) => ({
-          habits: state.habits.map((habit: Habit) =>
-            habit.id === id ? { ...habit, days: [...habit.days, day] } : habit
-          ),
-        })),
+        addHabitEntry: (id: string, day: string) =>
+          set((state: any) => ({
+            habits: state.habits.map((habit: Habit) =>
+              habit.id === id 
+                ? { 
+                    ...habit, 
+                    days: [...(habit.days ?? []), { date: day }] // Changed || to ?? for null coalescing
+                  } 
+                : habit
+            ),
+          })),
       removeDateFromHabit: (id: string, date: string) =>
         set((state: any) => ({
           habits: state.habits.map((habit: Habit) =>
             habit.id === id
               ? {
                   ...habit,
-                  days: habit.days.filter((day) => day.date === date),
+                  days: (habit.days || []).filter((day) => day.date !== date),
                 }
               : habit
+          ),
+        })),
+      setHabitDays: (id: string, days: HabitDay[]) =>
+        set((state: any) => ({
+          habits: state.habits.map((habit: Habit) =>
+            habit.id === id ? { ...habit, days } : habit
           ),
         })),
     }),

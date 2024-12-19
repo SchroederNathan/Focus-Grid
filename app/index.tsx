@@ -65,7 +65,8 @@ export default function Home() {
   return (
     <SafeAreaView className="flex-1 bg-background overflow-hidden relative">
       <Header
-        name="Habit Tracker"
+        name="Focus"
+        accentText="Grid."
         handleRightIconPress={() => handleSettings()}
       />
 
