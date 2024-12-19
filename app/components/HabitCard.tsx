@@ -1,4 +1,4 @@
-import { generateLast90Days } from "@/helpers/CardHelpers";
+import { generateLast90Days, getHabitStreak } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
@@ -93,6 +93,8 @@ const HabitCard = ({
   // Get today's entries count
   const todayEntries = dateCounts[formattedDate] || 0;
 
+  const streak = getHabitStreak(days);
+
   return (
     <View
       key={id}
@@ -105,7 +107,17 @@ const HabitCard = ({
           </View>
           {/* Habit Name */}
           <View className="flex-col justify-center">
-            <Text className="text-lg font-lsemibold text-text ">{name}</Text>
+            {/* Habit Streak */}
+
+            <View className="flex-row items-center">
+              <Text className="text-lg font-lsemibold text-text me-1">{name}</Text>
+              
+              <Icons.FireIcon size={18} color="#2e4074" />
+              <Text className="text-sm ms-0.5 font-lsemibold text-text/70">
+                {streak}
+              </Text>
+            </View>
+
             {description && (
               <Text className="text-md font-lsemibold text-text/70">
                 {description}
@@ -146,8 +158,7 @@ const HabitCard = ({
                   backgroundColor:
                     index < todayEntries ? "#2e4074" : "transparent",
                   borderRightWidth: index < maxEntries - 1 ? 3 : 0,
-                  borderColor: "#eeedf4",
-                  // marginRight: index < maxEntries - 1 ? 2 : 0,
+                  borderColor: "#eeedf4",gi
                 }}
               />
             ))}

@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
 import { HabitDay } from "@/models/models";
-import utc from "dayjs/plugin/utc";
+import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 dayjs.extend(utc);
@@ -51,9 +51,44 @@ export const guidGenerator = () => {
   );
 };
 
+export const getHabitStreak = (days: HabitDay[]) => {
+  // Sort days by date in descending order
+  const sortedDays = [...days].sort(
+    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+  );
+
+  let streak = 0;
+  let currentDate = dayjs();
+
+  // Count consecutive days from today backwards
+  for (let i = 0; i < sortedDays.length; i++) {
+    const date = dayjs(sortedDays[i].date);
+
+    // If this is the first day, just increment streak
+    if (i === 0) {
+      if (date.isSame(currentDate, "day")) {
+        streak++;
+        currentDate = currentDate.subtract(1, "day");
+        continue;
+      } else {
+        break;
+      }
+    }
+
+    // Check if this date is consecutive with previous date
+    if (date.isSame(currentDate, "day")) {
+      streak++;
+      currentDate = currentDate.subtract(1, "day");
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+
 export const DismissKeyboard = ({ children }: { children: any }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-
     {children}
   </TouchableWithoutFeedback>
 );
