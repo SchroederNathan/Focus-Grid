@@ -56,7 +56,10 @@ const TabBar = ({ otherStyles }: TabBarProps) => {
       ),
     },
   ];
-  const effectivePath = pathname === "/settings" ? "/" : pathname;
+  const effectivePath =
+    pathname === "/settings" || pathname.includes("/habits/edit")
+      ? "/"
+      : pathname;
 
   //create ishidden toggle
   const [isHidden, setIsHidden] = React.useState(false);

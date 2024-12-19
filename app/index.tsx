@@ -33,7 +33,7 @@ export default function Home() {
         {
           text: "Edit",
           icon: () => <PencilIcon size={18} color="#000" />,
-          onPress: () => console.log("Edit pressed"),
+          onPress: () => router.push(`/habits/edit/${item.id}`),
         },
         {
           text: "Delete",

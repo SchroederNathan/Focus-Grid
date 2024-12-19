@@ -40,8 +40,25 @@ export default function RootLayout() {
       <HoldMenuProvider safeAreaInsets={insets}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="habits/add" options={{ headerShown: false }} />
-          <Stack.Screen name="settings" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="habits/edit/[id]"
+            options={{
+              headerShown: false,
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="habits/add"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="settings"
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack>
         <TabBar />
       </HoldMenuProvider>
