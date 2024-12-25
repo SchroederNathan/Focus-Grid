@@ -25,6 +25,11 @@ module.exports = {
         lextrabold: ["Lexend-ExtraBold", "sans-serif"],
         lblack: ["Lexend-Black", "sans-serif"],
       },
+      flexBasis: {
+        "1/3": "calc(33.333% - 8px)",
+        "1/4": "calc(25% - 8px)",
+        "1/2": "calc(50% - 8px)",
+      },
     },
   },
   plugins: [],

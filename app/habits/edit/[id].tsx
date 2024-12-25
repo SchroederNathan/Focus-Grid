@@ -41,7 +41,7 @@ const edit = () => {
         key={`icon-${index}`}
         className={`
           bg-secondary-container 
-          w-12
+          w-[11.5%]
           h-12
           rounded-lg 
           flex 
@@ -51,10 +51,11 @@ const edit = () => {
         `}
         onPress={() => setSelectedIconIndex(index)}
       >
-        <IconComponent color={"#232323"} size={24} strokeWidth={2} />
+        <IconComponent color={"#232323"} size={20} strokeWidth={2.2} />
       </TouchableOpacity>
     );
   };
+
 
   const handleUpdate = () => {
     // update habit
@@ -109,7 +110,7 @@ const edit = () => {
               <Text className="text-text font-lmedium mb-2">Icon</Text>
 
               {/* Update the icon container */}
-              <View className="flex-row flex-wrap gap-2 mb-4 justify-between">
+              <View className="flex-row flex-wrap gap-[1.14%] ">
                 {validIcons.map((IconComponent, index) =>
                   renderIcon(IconComponent, index)
                 )}
