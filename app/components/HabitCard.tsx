@@ -171,9 +171,9 @@ const HabitCard = ({
       <View className="flex-row items-center ">
         {/* Days Grid */}
         <View className="flex-1 items-center justify-center">
-          <View className="flex flex-row gap-[4px]">
+          <View className="w-full flex flex-row gap-[4px]">
             {Array.from({ length: Math.ceil(last60Days.length / 5) }).map((_, colIndex) => (
-              <View key={`col-${colIndex}`} className="flex flex-col gap-[4px]">
+              <View key={`col-${colIndex}`} className="flex-1 flex flex-col gap-[4px]">
                 {last60Days
                   .slice(colIndex * 5, (colIndex + 1) * 5)
                   .map((day) => (
@@ -181,9 +181,9 @@ const HabitCard = ({
                       key={day}
                       style={[
                         {
-                          width: 17,
+                          width: '100%',
                           aspectRatio: 1,
-                          borderRadius: 6,
+                          borderRadius: 4,
                         },
                         getColor(day),
                       ]}
