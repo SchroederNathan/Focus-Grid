@@ -5,6 +5,7 @@ import { HoldMenuProvider } from "react-native-hold-menu";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import "../global.css";
 import TabBar from "./components/tab-bar/TabBar";
+import { View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,9 +37,13 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <View className="flex-1 bg-background">
       <HoldMenuProvider safeAreaInsets={insets}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            animation: "slide_from_right", // This ensures consistent animation across platforms
+          }}
+        >
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen
             name="habits/edit/[id]"
@@ -62,6 +67,6 @@ export default function RootLayout() {
         </Stack>
         <TabBar />
       </HoldMenuProvider>
-    </>
+    </View>
   );
 }

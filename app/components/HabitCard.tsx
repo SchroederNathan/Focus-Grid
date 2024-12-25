@@ -170,21 +170,29 @@ const HabitCard = ({
       {/* Days Grid and Button */}
       <View className="flex-row items-center ">
         {/* Days Grid */}
-        <View className="flex-row flex-wrap justify-center items-center gap-[4px] -mx-2">
-          {last60Days.map((day) => (
-            <View
-              key={day}
-              style={[
-                {
-                  aspectRatio: 1,
-                  borderRadius: 6,
-                  flexBasis: `${100 / 23}%`,
-                },
-                getColor(day),
-              ]}
-              accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
-            />
-          ))}
+        <View className="flex-1 items-center justify-center">
+          <View className="flex flex-row gap-[4px]">
+            {Array.from({ length: Math.ceil(last60Days.length / 5) }).map((_, colIndex) => (
+              <View key={`col-${colIndex}`} className="flex flex-col gap-[4px]">
+                {last60Days
+                  .slice(colIndex * 5, (colIndex + 1) * 5)
+                  .map((day) => (
+                    <View
+                      key={day}
+                      style={[
+                        {
+                          width: 17,
+                          aspectRatio: 1,
+                          borderRadius: 6,
+                        },
+                        getColor(day),
+                      ]}
+                      accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
+                    />
+                  ))}
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     </View>
