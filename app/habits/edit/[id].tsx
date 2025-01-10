@@ -4,6 +4,7 @@ import NumberStepper from "@/app/components/NumberStepper";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import { DismissKeyboard } from "@/helpers/CardHelpers";
 import { heroIcons } from "@/helpers/Icons";
+import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from "react";
@@ -14,31 +15,43 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 
-const edit = () => {
+const EditHabitScreen = () => {
   const { id } = useLocalSearchParams();
+  const habits = useHabitsStore((state) => state.habits);
+  const updateHabit = useHabitsStore((state) => state.updateHabit);
 
-  // get habit from id
-  const habits = useHabitsStore((state: any) => state.habits);
-  const updateHabit = useHabitsStore((state: any) => state.updateHabit);
-
-  const habit = habits.find((habit: any) => habit.id === id);
-
+  const habit = habits.find((h) => h.id === id)!;
+  
   const [name, setName] = useState(habit.name);
   const [description, setDescription] = useState(habit.description);
   const [maxEntries, setMaxEntries] = useState(habit.maxEntries);
-  const [selectedIconIndex, setSelectedIconIndex] = useState(habit.icon);
+  const [selectedIconName, setSelectedIconName] = useState(habit.icon);
 
-  // Validate and filter icons to ensure they are valid
-  const validIcons = useMemo(
-    () => heroIcons.filter((icon) => icon && typeof icon === "function"),
-    [heroIcons]
-  );
+  const categories = getAllCategories();
 
-  const renderIcon = (IconComponent: any, index: number) => {
+  const handleUpdate = () => {
+    const updatedHabit: Habit = {
+      ...habit,
+      name,
+      description,
+      maxEntries,
+      icon: selectedIconName,
+    };
+
+    if (name.trim()) {
+      updateHabit(updatedHabit);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      router.back();
+    }
+  };
+
+  const renderIcon = (mapping: IconMapping) => {
+    const IconComponent = mapping.icon;
     return (
       <TouchableOpacity
-        key={`icon-${index}`}
+        key={`icon-${mapping.name}`}
         className={`
           bg-secondary-container 
           w-[11.5%]
@@ -47,26 +60,13 @@ const edit = () => {
           flex 
           justify-center 
           items-center 
-          ${selectedIconIndex === index ? "border-2 border-secondary" : ""}
+          ${selectedIconName === mapping.name ? "border-2 border-secondary" : ""}
         `}
-        onPress={() => setSelectedIconIndex(index)}
+        onPress={() => setSelectedIconName(mapping.name)}
       >
         <IconComponent color={"#232323"} size={20} strokeWidth={2.2} />
       </TouchableOpacity>
     );
-  };
-
-
-  const handleUpdate = () => {
-    // update habit
-    updateHabit(id, {
-      name,
-      description,
-      maxEntries,
-      icon: selectedIconIndex,
-    });
-
-    router.back();
   };
 
   return (
@@ -111,9 +111,14 @@ const edit = () => {
 
               {/* Update the icon container */}
               <View className="flex-row flex-wrap gap-[1.14%] ">
-                {validIcons.map((IconComponent, index) =>
-                  renderIcon(IconComponent, index)
-                )}
+                {categories.map((category) => (
+                  <View key={category} className="mb-4">
+                    <Text className="text-text/70 font-lmedium mb-2">{category}</Text>
+                    <View className="flex-row flex-wrap gap-2">
+                      {getIconsByCategory(category).map((iconMapping) => renderIcon(iconMapping))}
+                    </View>
+                  </View>
+                ))}
               </View>
 
               <PrimaryButton
@@ -130,4 +135,4 @@ const edit = () => {
   );
 };
 
-export default edit;
+export default EditHabitScreen;

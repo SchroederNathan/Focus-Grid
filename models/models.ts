@@ -6,7 +6,7 @@ export interface Habit {
   id: string;
   name: string;
   description?: string;
-  icon: number;
+  icon: string;
   maxEntries: number;
   days: HabitDay[]; // Array of completed days
 }

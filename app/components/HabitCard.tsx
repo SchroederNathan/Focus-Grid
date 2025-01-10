@@ -1,5 +1,5 @@
 import { generateLast90Days, getHabitStreak } from "@/helpers/CardHelpers";
-import { heroIcons } from "@/helpers/Icons";
+import { getIconByName, heroIcons } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import dayjs from "dayjs";
@@ -73,10 +73,12 @@ const HabitCard = ({
     };
   };
 
-  const renderIcon = (IconComponent: any, index: number) => {
+  const renderIcon = (iconName: string) => {
+    const IconComponent = getIconByName(iconName);
+    if (!IconComponent) return null;
+
     return (
       <View
-        key={`icon-${index}`}
         className={`
           bg-secondary-container 
           w-12
@@ -105,7 +107,7 @@ const HabitCard = ({
       <View className="flex-row justify-between items-center mb-3">
         <View className="flex-row items-center">
           <View className="bg-secondary-container/ w-12 aspect-square rounded-lg flex justify-center items-center me-3">
-            {renderIcon(validIcons[icon], icon)}
+            {renderIcon(icon)}
           </View>
           {/* Habit Name */}
           <View className="flex-col justify-center">

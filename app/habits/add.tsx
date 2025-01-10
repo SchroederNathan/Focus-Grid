@@ -1,10 +1,10 @@
 import { DismissKeyboard, guidGenerator } from "@/helpers/CardHelpers";
-import { heroIcons } from "@/helpers/Icons";
+import { iconMappings } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../components/FormField";
@@ -18,14 +18,7 @@ const AddHabitScreen = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [maxEntries, setMaxEntries] = useState<number>(1);
-
-  // Validate and filter icons to ensure they are valid
-  const validIcons = useMemo(
-    () => heroIcons.filter((icon) => icon && typeof icon === "function"),
-    [heroIcons]
-  );
-
-  const [selectedIconIndex, setSelectedIconIndex] = useState<number>(0); // Track selected icon by index
+  const [selectedIconName, setSelectedIconName] = useState<string>("Exercise"); // Default icon
 
   const handleCreate = () => {
     const habit: Habit = {
@@ -34,7 +27,7 @@ const AddHabitScreen = () => {
       description: description,
       days: [],
       maxEntries: maxEntries,
-      icon: selectedIconIndex,
+      icon: selectedIconName,
     };
 
     if (name.trim()) {
@@ -44,21 +37,22 @@ const AddHabitScreen = () => {
     }
   };
 
-  const renderIcon = (IconComponent: any, index: number) => {
+  const renderIcon = (mapping: any) => {
+    const IconComponent = mapping.icon;
     return (
       <TouchableOpacity
-        key={`icon-${index}`}
+        key={`icon-${mapping.name}`}
         className={`
           bg-secondary-container 
           w-[11.5%]
-          h-12
+          h-14
           rounded-lg 
           flex 
           justify-center 
           items-center 
-          ${selectedIconIndex === index ? "border-2 border-secondary" : ""}
+          ${selectedIconName === mapping.name ? "border-2 border-secondary" : ""}
         `}
-        onPress={() => setSelectedIconIndex(index)}
+        onPress={() => setSelectedIconName(mapping.name)}
       >
         <IconComponent color={"#232323"} size={20} strokeWidth={2.2} />
       </TouchableOpacity>
@@ -66,62 +60,46 @@ const AddHabitScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background overflow-visible relative">
-      <Header name="Add Habit" />
-      <View className="flex-1 overflow-hidden -mb-12">
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          className="flex-1 px-4 overflow-visible bg-background "
-        >
-          <DismissKeyboard>
-            <View className="mb-44">
-              <FormField
-                title="Name"
-                value={name}
-                maxLength={42}
-                hideMaxLength={true}
-                placeholder={"Ex. Morning Run"}
-                handleChangeText={setName}
-                keyboardType="default"
-                otherStyles="mb-4"
-              />
+    <SafeAreaView className="flex-1 bg-background ">
+      <Header name="New Habit" handleBackPress={() => router.back()} />
+      <ScrollView className="flex-1 bg-background px-4 py-2 mb-28 overflow-visible">
+        <FormField
+          title="Name"
+          value={name}
+          placeholder="Habit name"
+          maxLength={24}
+          handleChangeText={setName}
+          otherStyles="mb-4"
+        />
+        <FormField
+          title="Description (optional)"
+          value={description}
+          placeholder="Add a description"
+          maxLength={48}
+          handleChangeText={setDescription}
+          otherStyles="mb-4"
+        />
+        <NumberStepper
+          title="Daily Goal"
+          value={maxEntries}
+          onChange={setMaxEntries}
+          otherStyles="mb-4"
+        />
 
-              <FormField
-                title="Description"
-                value={description}
-                maxLength={40}
-                placeholder={"Add a brief description (optional)"}
-                handleChangeText={setDescription}
-                keyboardType="default"
-                otherStyles="mb-4"
-              />
-
-              <NumberStepper
-                title="Entries Per Day"
-                otherStyles="mb-4"
-                value={maxEntries}
-                onChange={setMaxEntries}
-              />
-
-              <Text className="text-text font-lmedium mb-2">Icon</Text>
-
-              {/* Update the icon container */}
-              <View className="flex-row flex-wrap gap-[1.14%] ">
-                {validIcons.map((IconComponent, index) =>
-                  renderIcon(IconComponent, index)
-                )}
-              </View>
-
-              <PrimaryButton
-                title="Create"
-                otherStyles="mt-4"
-                onPress={handleCreate}
-                color="bg-primary"
-              />
-            </View>
-          </DismissKeyboard>
-        </ScrollView>
+        <Text className="text-text font-lmedium mb-4">Icon</Text>
+        <View className="flex-row flex-wrap gap-[1.14%]">
+          {iconMappings.map((iconMapping) => renderIcon(iconMapping))}
+        </View>
+        <View className=" mt-4">
+        <PrimaryButton
+          title="Create Habit"
+          color={"bg-primary"}
+          onPress={handleCreate}
+        />
       </View>
+      </ScrollView>
+
+
     </SafeAreaView>
   );
 };
