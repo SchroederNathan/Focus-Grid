@@ -1,5 +1,7 @@
 # **Habit Tracker - Focus Grid**
 
+![FocusGrid Preview](assets/images/focusgrid-preview.png)
+
 ## **Introduction**  
 A habit-tracking app designed to help users visualize their progress using a dynamic grid similar to github contributions. Stay consistent, track habits, and share your achievements effortlessly.
 
