@@ -1,50 +1,65 @@
-# Welcome to your Expo app 👋
+# **Habit Tracker - Focus Grid**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## **Introduction**  
+A habit-tracking app designed to help users visualize their progress using a dynamic grid similar to github contributions. Stay consistent, track habits, and share your achievements effortlessly.
 
-## Get started
+---
 
-1. Install dependencies
+## **Features**  
+- **Create, Edit, and Delete Habits**: Manage your habits easily.  
+- **Visual Progress Grid**: Track your daily habits with an intuitive, color-coded grid.  
+- **Notifications**: Stay on track with timely reminders for your habits.  
+- **Share Your Progress**: Share your habit achievements with friends.  
 
+---
+
+## **Screenshots**  
+
+---
+
+## **Installation**  
+
+### **For Mobile Users**  
+1. Download the app from the [App Store](#) or [Google Play](#).  
+2. Open the app and follow the onboarding steps.  
+
+### **For Developers**  
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/yourusername/habit-tracker.git
+   ```
+   
+2. Navigate to the project folder
+   ```bash
+   cd focus-grid
+   ```
+   
+3. Install Dependacies
    ```bash
    npm install
    ```
 
-2. Start the app
-
+4. Start the app
    ```bash
-    npx expo start
+   npx expo start
    ```
+   
+---
 
-In the output, you'll find options to open the app in a
+## **Roadmap**  
+- **Future feature ideas**:  
+  - Add gamification (badges, rewards).  
+  - Enable multi-device syncing.  
+  - Add dark mode.  
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## **License**  
+This project is licensed under the [MIT License](LICENSE).
 
-## Get a fresh project
+---
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## **Contact**  
+If you have any questions, suggestions, or issues, feel free to reach out:  
+- **Email**: schroedernathan2011@icloud.com
+- **GitHub**: [SchroederNathan](https://github.com/SchroederNathan)
