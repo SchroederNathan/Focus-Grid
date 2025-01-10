@@ -3,7 +3,7 @@ import Header from "@/app/components/Header";
 import NumberStepper from "@/app/components/NumberStepper";
 import PrimaryButton from "@/app/components/PrimaryButton";
 import { DismissKeyboard } from "@/helpers/CardHelpers";
-import { heroIcons } from "@/helpers/Icons";
+import { heroIcons, iconMappings } from "@/helpers/Icons";
 import { Habit } from "@/models/models";
 import { useHabitsStore } from "@/zustand/store";
 import { router, useLocalSearchParams } from "expo-router";
@@ -29,8 +29,6 @@ const EditHabitScreen = () => {
   const [maxEntries, setMaxEntries] = useState(habit.maxEntries);
   const [selectedIconName, setSelectedIconName] = useState(habit.icon);
 
-  const categories = getAllCategories();
-
   const handleUpdate = () => {
     const updatedHabit: Habit = {
       ...habit,
@@ -47,11 +45,11 @@ const EditHabitScreen = () => {
     }
   };
 
-  const renderIcon = (mapping: IconMapping) => {
+  const renderIcon = (mapping: any) => {
     const IconComponent = mapping.icon;
     return (
       <TouchableOpacity
-        key={`icon-${mapping.name}`}
+        key={mapping.name}
         className={`
           bg-secondary-container 
           w-[11.5%]
@@ -75,7 +73,7 @@ const EditHabitScreen = () => {
       <View className="flex-1 overflow-hidden -mb-12">
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className="flex-1 px-4 overflow-visible bg-background "
+          className="flex-1 px-4 overflow-visible bg-background"
         >
           <DismissKeyboard>
             <View className="mb-44">
@@ -107,18 +105,9 @@ const EditHabitScreen = () => {
                 onChange={setMaxEntries}
               />
 
-              <Text className="text-text font-lmedium mb-2">Icon</Text>
-
-              {/* Update the icon container */}
-              <View className="flex-row flex-wrap gap-[1.14%] ">
-                {categories.map((category) => (
-                  <View key={category} className="mb-4">
-                    <Text className="text-text/70 font-lmedium mb-2">{category}</Text>
-                    <View className="flex-row flex-wrap gap-2">
-                      {getIconsByCategory(category).map((iconMapping) => renderIcon(iconMapping))}
-                    </View>
-                  </View>
-                ))}
+              <Text className="text-text font-lmedium mb-4">Icon</Text>
+              <View className="flex-row flex-wrap gap-[1.14%]">
+                {iconMappings.map((iconMapping) => renderIcon(iconMapping))}
               </View>
 
               <PrimaryButton
