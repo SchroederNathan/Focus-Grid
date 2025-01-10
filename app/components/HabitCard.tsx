@@ -15,6 +15,7 @@ dayjs.extend(timezone); // use plugin
 
 interface HabitProps extends Habit {
   habitEntry: (id: string, date: string) => void;
+  sharingMode?: boolean;
 }
 
 const HabitCard = ({
@@ -24,6 +25,7 @@ const HabitCard = ({
   days,
   maxEntries,
   icon,
+  sharingMode,
   habitEntry,
 }: HabitProps) => {
   const completedDates = days.map((day) =>
@@ -120,7 +122,7 @@ const HabitCard = ({
               </Text>
             </View>
 
-            {description && (
+            {description && !sharingMode && (
               <Text className="text-md font-lsemibold text-text/70">
                 {description}
               </Text>
@@ -128,23 +130,27 @@ const HabitCard = ({
           </View>
         </View>
         {/* Button */}
-        <TouchableOpacity
-          className="bg-primary 2 w-12 aspect-square rounded-lg flex justify-center items-center"
-          onPress={() => {
-            const currentCount = dateCounts[formattedDate] || 0;
-            if (currentCount < maxEntries) {
-              habitEntry(id, formattedDate);
-              Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Success
-              );
-            } else {
-              removeDateFromHabit(id, formattedDate);
-              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            }
-          }}
-        >
-          <Icons.CheckIcon fill={"white"} size={24} />
-        </TouchableOpacity>
+        {!sharingMode && (
+          <TouchableOpacity
+            className="bg-primary 2 w-12 aspect-square rounded-lg flex justify-center items-center"
+            onPress={() => {
+              const currentCount = dateCounts[formattedDate] || 0;
+              if (currentCount < maxEntries) {
+                habitEntry(id, formattedDate);
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Success
+                );
+              } else {
+                removeDateFromHabit(id, formattedDate);
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Error
+                );
+              }
+            }}
+          >
+            <Icons.CheckIcon fill={"white"} size={24} />
+          </TouchableOpacity>
+        )}
       </View>
       {/* Progress Bar */}
       {maxEntries > 1 && (
@@ -172,26 +178,33 @@ const HabitCard = ({
         {/* Days Grid */}
         <View className="flex-1 items-center justify-center">
           <View className="w-full flex flex-row gap-[4px]">
-            {Array.from({ length: Math.ceil(last60Days.length / 5) }).map((_, colIndex) => (
-              <View key={`col-${colIndex}`} className="flex-1 flex flex-col gap-[4px]">
-                {last60Days
-                  .slice(colIndex * 5, (colIndex + 1) * 5)
-                  .map((day) => (
-                    <View
-                      key={day}
-                      style={[
-                        {
-                          width: '100%',
-                          aspectRatio: 1,
-                          borderRadius: 4,
-                        },
-                        getColor(day),
-                      ]}
-                      accessibilityLabel={`Date: ${dayjs(day).format("MMM D, YYYY")}`}
-                    />
-                  ))}
-              </View>
-            ))}
+            {Array.from({ length: Math.ceil(last60Days.length / 5) }).map(
+              (_, colIndex) => (
+                <View
+                  key={`col-${colIndex}`}
+                  className="flex-1 flex flex-col gap-[4px]"
+                >
+                  {last60Days
+                    .slice(colIndex * 5, (colIndex + 1) * 5)
+                    .map((day) => (
+                      <View
+                        key={day}
+                        style={[
+                          {
+                            width: "100%",
+                            aspectRatio: 1,
+                            borderRadius: 4,
+                          },
+                          getColor(day),
+                        ]}
+                        accessibilityLabel={`Date: ${dayjs(day).format(
+                          "MMM D, YYYY"
+                        )}`}
+                      />
+                    ))}
+                </View>
+              )
+            )}
           </View>
         </View>
       </View>

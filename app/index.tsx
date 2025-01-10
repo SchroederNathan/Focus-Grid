@@ -1,8 +1,15 @@
 import { useHabitsStore } from "@/zustand/store";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef } from "react";
-import { FlatList, View, Platform, Share, Linking } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  FlatList,
+  View,
+  Platform,
+  Share,
+  Linking,
+  ImageBackground,
+} from "react-native";
 import { PencilIcon, TrashIcon } from "react-native-heroicons/outline";
 import { HoldItem } from "react-native-hold-menu";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,11 +19,13 @@ import { ShareIcon } from "react-native-heroicons/solid";
 import ViewShot from "react-native-view-shot";
 import { Habit } from "@/models/models";
 import * as SMS from "expo-sms";
-
+import ShareableHabitCard from "./habits/sharing/ShareableHabitCard";
+import { getHabitStreak } from "@/helpers/CardHelpers";
 
 export default function Home() {
   const router = useRouter();
   const viewShotRefs = useRef<Record<string, any>>({});
+  const [sharingHabitId, setSharingHabitId] = useState<string | null>(null);
 
   const habits = useHabitsStore((state: any) => state.habits);
   const addHabitEntry = useHabitsStore((state: any) => state.addHabitEntry);
@@ -36,31 +45,37 @@ export default function Home() {
       const habitToShare = habits.find((habit: Habit) => habit.id === id);
       if (!habitToShare || !viewShotRefs.current[id]) return;
 
-      // Capture the image first
+      // Set the sharing state
+      setSharingHabitId(id);
+
+      // Wait a moment for the state to update and render
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Capture the image
       const uri = await viewShotRefs.current[id].capture();
 
-      const message = `I've been crushing my ${habitToShare.name} habit - ${habitToShare.days.length} days and counting!`;
+      // Reset sharing state
+      setSharingHabitId(null);
+
+      const message = `I've been crushing my ${
+        habitToShare.name
+      } habit - ${getHabitStreak(habitToShare.days)} days and counting!`;
 
       if (Platform.OS === "android") {
         const isAvailable = await SMS.isAvailableAsync();
         if (isAvailable) {
-          await SMS.sendSMSAsync(
-            [], // empty array for recipients
-            message,
-            {
-              attachments: {
-                uri: uri,
-                mimeType: "image/png",
-                filename: "habit.png",
-              },
-            }
-          );
+          await SMS.sendSMSAsync([], message, {
+            attachments: {
+              uri: uri,
+              mimeType: "image/png",
+              filename: "habit.png",
+            },
+          });
         }
       } else if (Platform.OS === "ios") {
-        // For iOS, share both image and text using Share API
         await Share.share({
           message: message,
-          url: uri, // iOS will use this as the attachment
+          url: uri,
         });
       }
     } catch (error) {
@@ -100,6 +115,9 @@ export default function Home() {
           result: "tmpfile",
         }}
       >
+        {sharingHabitId === item.id ? (
+          <ShareableHabitCard {...item} habitEntry={habitEntry} />
+        ) : (
           <HabitCard
             id={item.id}
             name={item.name}
@@ -109,7 +127,7 @@ export default function Home() {
             icon={item.icon}
             habitEntry={habitEntry}
           />
-
+        )}
       </ViewShot>
     </HoldItem>
   );
