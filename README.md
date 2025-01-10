@@ -3,19 +3,13 @@
 ## **Introduction**  
 A habit-tracking app designed to help users visualize their progress using a dynamic grid similar to github contributions. Stay consistent, track habits, and share your achievements effortlessly.
 
----
-
 ## **Features**  
 - **Create, Edit, and Delete Habits**: Manage your habits easily.  
 - **Visual Progress Grid**: Track your daily habits with an intuitive, color-coded grid.  
 - **Notifications**: Stay on track with timely reminders for your habits.  
 - **Share Your Progress**: Share your habit achievements with friends.  
 
----
-
 ## **Screenshots**  
-
----
 
 ## **Installation**  
 
@@ -44,7 +38,6 @@ A habit-tracking app designed to help users visualize their progress using a dyn
    npx expo start
    ```
    
----
 
 ## **Roadmap**  
 - **Future feature ideas**:  
@@ -52,12 +45,10 @@ A habit-tracking app designed to help users visualize their progress using a dyn
   - Enable multi-device syncing.  
   - Add dark mode.  
 
----
 
 ## **License**  
 This project is licensed under the [MIT License](LICENSE).
 
----
 
 ## **Contact**  
 If you have any questions, suggestions, or issues, feel free to reach out:  
